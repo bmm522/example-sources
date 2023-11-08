@@ -2,7 +2,8 @@ package com.example.jwtsecurity.auth.jwt;
 
 import com.example.jwtsecurity.auth.AuthenticationAble;
 import com.example.jwtsecurity.auth.AuthenticationFactory;
-import com.example.jwtsecurity.auth.jwt.token.TokenProvider;
+import com.example.jwtsecurity.auth.jwt.token.Token;
+import com.example.jwtsecurity.auth.jwt.token.TokenFactory;
 import lombok.RequiredArgsConstructor;
 
 
@@ -10,13 +11,13 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFactory implements AuthenticationFactory<JwtPayload> {
 
 
-        private final TokenProvider tokenProvider;
+        private final TokenFactory tokenFactory;
 
         @Override
         public JwtPayload generatePayload(AuthenticationAble authenticationAble) {
-                String accessToken = tokenProvider.generateAccessToken(authenticationAble);
-                String refreshToken = tokenProvider.generateRefreshToken(authenticationAble);
-                return JwtPayload.of(accessToken, refreshToken);
+                Token accessToken = tokenFactory.generateAccessToken(authenticationAble);
+                Token refreshToken = tokenFactory.generateRefreshToken(authenticationAble);
+                return JwtPayload.of(accessToken.getToken(), refreshToken.getToken());
         }
 
 
