@@ -1,20 +1,10 @@
 package com.example.jwtsecurity.auth;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-public class AuthenticationProvider<T> {
-
-        private final AuthenticationStrategy<T> authenticationStrategy;
+public interface AuthenticationProvider<T>{
 
 
-        public T generatePayload(AuthenticationAble authenticationAble) {
-                return authenticationStrategy.generatePayload(authenticationAble);
-        }
+        T generatePayload(AuthenticationAble authenticationAble);
 
-
-        public void validate() {
-                authenticationStrategy.validate();
-        }
+        void validate();
 
 }
