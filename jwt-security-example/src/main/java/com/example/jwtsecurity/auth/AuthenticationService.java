@@ -1,6 +1,6 @@
 package com.example.jwtsecurity.auth;
 
-public interface AuthenticationProvider<T>{
+public interface AuthenticationService<T>{
 
 
         T generatePayload(AuthenticationAble authenticationAble);

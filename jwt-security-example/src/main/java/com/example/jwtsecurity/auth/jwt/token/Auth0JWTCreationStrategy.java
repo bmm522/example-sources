@@ -8,8 +8,7 @@ import java.util.Date;
 public class Auth0JWTCreationStrategy implements TokenCreationStrategy {
 
         @Override
-        public Token makeToken(
-            final TokenMetadata tokenMetadata) {
+        public Token makeToken(final TokenMetadata tokenMetadata) {
 
                 Date expiresAt = new Date(
                     System.currentTimeMillis() + tokenMetadata.expirationTime());
