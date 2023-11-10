@@ -1,47 +1,23 @@
 package com.example.jwtsecurity.auth.jwt.token;
 
+import org.springframework.stereotype.Component;
 
 import com.example.jwtsecurity.auth.AuthenticationAble;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Component
 public class TokenGeneratorImpl implements TokenGenerator {
 
-        private final TokenProperties tokenProperties;
+	private TokenCreationStrategy tokenCreationStrategy;
 
-        private final TokenCreationStrategy tokenCreationStrategy;
+	public Token generateAccessToken (AuthenticationAble authenticationAble) {
+		return tokenCreationStrategy.makeToken(TokenType.ACCESS_TOKEN, authenticationAble);
+	}
 
-        public Token generateAccessToken(AuthenticationAble authenticationAble) {
-
-                try {
-                        return tokenCreationStrategy.makeToken(
-                            TokenMetadata.of(authenticationAble.getUserKey(),
-                                tokenProperties.getSecret(),
-                                tokenProperties.getAccessTokenSubject(),
-                                tokenProperties.getAccessTokenExpirationTime(),
-                                tokenProperties.getAccessTokenClaim(),
-                                tokenProperties.getAccessTokenPrefix())
-                        );
-                } catch (Exception e) {
-                        throw new RuntimeException("Access Token Generate Error");
-                }
-        }
-
-        public Token generateRefreshToken(AuthenticationAble authenticationAble) {
-
-                try {
-                        return tokenCreationStrategy.makeToken(
-                            TokenMetadata.of(authenticationAble.getUserKey(),
-                                tokenProperties.getSecret(),
-                                tokenProperties.getRefreshTokenSubject(),
-                                tokenProperties.getRefreshTokenExpirationTime(),
-                                null,
-                                tokenProperties.getRefreshTokenPrefix())
-                        );
-                } catch (Exception e) {
-                        throw new RuntimeException("Access Token Generate Error");
-                }
-        }
-
+	public Token generateRefreshToken (AuthenticationAble authenticationAble) {
+		return tokenCreationStrategy.makeToken(TokenType.REFRESH_TOKEN, authenticationAble);
+	}
 
 }

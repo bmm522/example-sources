@@ -1,6 +1,8 @@
 package com.example.jwtsecurity.auth.jwt;
 
-public class JwtPayload {
+import com.example.jwtsecurity.auth.Payload;
+
+public class JwtPayload implements Payload {
 
         private String accessToken;
         private String refreshToken;
@@ -14,11 +16,13 @@ public class JwtPayload {
                 return new JwtPayload(accessToken, refreshToken);
         }
 
+        @Override
         public String getAccessToken() {
 
                 return accessToken;
         }
 
+        @Override
         public String getRefreshToken() {
 
                 return refreshToken;

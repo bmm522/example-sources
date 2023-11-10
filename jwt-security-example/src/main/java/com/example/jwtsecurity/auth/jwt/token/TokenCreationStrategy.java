@@ -1,7 +1,9 @@
 package com.example.jwtsecurity.auth.jwt.token;
 
+import com.example.jwtsecurity.auth.AuthenticationAble;
+
 public interface TokenCreationStrategy {
 
-        Token makeToken(final TokenMetadata tokenMetadata);
+        Token makeToken(TokenType tokenType, AuthenticationAble authenticationAble);
 
 }
