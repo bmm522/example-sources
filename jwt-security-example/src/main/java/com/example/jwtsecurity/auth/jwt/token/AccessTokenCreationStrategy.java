@@ -10,18 +10,20 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class AccessTokenCreationStrategy implements TokenCreationStrategy {
 
-	private final TokenProperties tokenProperties;
-	private final JwtIssuer jwtIssuer;
+        private final TokenProperties tokenProperties;
 
-	@Override
-	public Token makeToken (TokenType tokenType, AuthenticationAble authenticationAble) {
-		if (TokenType.ACCESS_TOKEN.equals(tokenType)) {
-			return jwtIssuer.execute(TokenMetadata.of(authenticationAble.getUserKey(),
-				tokenProperties.getSecret(),
-				tokenProperties.getAccessTokenSubject(),
-				tokenProperties.getAccessTokenExpirationTime(),
-				tokenProperties.getAccessTokenClaim(),
-				tokenProperties.getAccessTokenPrefix()));
-		}
-	}
+        private final TokenIssuer tokenIssuer;
+
+        @Override
+        public Token execute(AuthenticationAble authenticationAble) {
+
+                return tokenIssuer.makeToken(TokenMetadata.of(authenticationAble.getUserKey(),
+                    tokenProperties.getSecret(),
+                    tokenProperties.getAccessTokenSubject(),
+                    tokenProperties.getAccessTokenExpirationTime(),
+                    tokenProperties.getAccessTokenClaim(),
+                    tokenProperties.getAccessTokenPrefix()));
+
+        }
+
 }

@@ -4,7 +4,7 @@ import com.example.jwtsecurity.auth.AuthenticationAble;
 
 public interface TokenGenerator {
 
-        Token generateAccessToken(AuthenticationAble authenticationAble);
+        Token generate(TokenCreationStrategy tokenCreationStrategy,
+            AuthenticationAble authenticationAble);
 
-        Token generateRefreshToken(AuthenticationAble authenticationAble);
 }

@@ -10,14 +10,11 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class TokenGeneratorImpl implements TokenGenerator {
 
-	private TokenCreationStrategy tokenCreationStrategy;
+        @Override
+        public Token generate(TokenCreationStrategy tokenCreationStrategy,
+            AuthenticationAble authenticationAble) {
 
-	public Token generateAccessToken (AuthenticationAble authenticationAble) {
-		return tokenCreationStrategy.makeToken(TokenType.ACCESS_TOKEN, authenticationAble);
-	}
-
-	public Token generateRefreshToken (AuthenticationAble authenticationAble) {
-		return tokenCreationStrategy.makeToken(TokenType.REFRESH_TOKEN, authenticationAble);
-	}
+                return tokenCreationStrategy.execute(authenticationAble);
+        }
 
 }

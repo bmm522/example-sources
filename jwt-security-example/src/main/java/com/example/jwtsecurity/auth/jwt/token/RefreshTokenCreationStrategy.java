@@ -10,19 +10,19 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class RefreshTokenCreationStrategy implements TokenCreationStrategy {
 
-	private final TokenProperties tokenProperties;
-	private final JwtIssuer jwtIssuer;
+        private final TokenProperties tokenProperties;
 
-	@Override
-	public Token makeToken (TokenType tokenType, AuthenticationAble authenticationAble) {
-		if (TokenType.REFRESH_TOKEN.equals(tokenType)) {
-			return jwtIssuer.execute(TokenMetadata.of(authenticationAble.getUserKey(),
-				tokenProperties.getSecret(),
-				tokenProperties.getRefreshTokenSubject(),
-				tokenProperties.getRefreshTokenExpirationTime(),
-				null,
-				tokenProperties.getRefreshTokenPrefix()));
-		}
-		return null;
-	}
+        private final TokenIssuer tokenIssuer;
+
+        @Override
+        public Token execute(AuthenticationAble authenticationAble) {
+
+                return tokenIssuer.makeToken(TokenMetadata.of(authenticationAble.getUserKey(),
+                    tokenProperties.getSecret(),
+                    tokenProperties.getRefreshTokenSubject(),
+                    tokenProperties.getRefreshTokenExpirationTime(),
+                    null,
+                    tokenProperties.getRefreshTokenPrefix()));
+        }
+
 }
