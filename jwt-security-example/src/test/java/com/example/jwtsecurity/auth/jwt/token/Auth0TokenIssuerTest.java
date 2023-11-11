@@ -5,7 +5,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,13 +12,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+
 public class Auth0TokenIssuerTest {
 
-        private TokenIssuer auth0TokenIssuer;
+        private Auth0TokenIssuer auth0TokenIssuer;
+
         private String secret;
+
         private String claimName;
+
         private String userKey;
+
         private String subject;
+
         private long expirationTime;
 
         @BeforeEach
@@ -40,23 +45,12 @@ public class Auth0TokenIssuerTest {
                     expirationTime, claimName);
 
                 String actualToken = auth0TokenIssuer.makeToken(tokenMetadata);
-
-                String expectToken = JWT.create()
-                    .withSubject(tokenMetadata.subject())
-                    .withExpiresAt(tokenMetadata.getExpiresAtOfDateType(LocalDateTime.now()))
-                    .withClaim(tokenMetadata.claim(), tokenMetadata.userKey())
-                    .sign(Algorithm.HMAC256(tokenMetadata.secret()));
-
-                DecodedJWT actual = JWT.require(Algorithm.HMAC256(secret)).build()
-                    .verify(actualToken);
-                DecodedJWT expect = JWT.require(Algorithm.HMAC256(secret)).build()
-                    .verify(expectToken);
+                DecodedJWT actual = getDecodedJWTFrom(actualToken);
 
                 assertSoftly(softly -> {
-                        softly.assertThat(actual.getSubject()).isEqualTo(expect.getSubject());
-                        softly.assertThat(actual.getClaim(claimName).toString()).isEqualTo(expect.getClaim(
-                            claimName).toString());
-                        softly.assertThat(actual.getSignature()).isEqualTo(expect.getSignature());
+                        softly.assertThat(actual.getSubject()).isEqualTo(subject);
+                        softly.assertThat(actual.getClaim(claimName).toString())
+                            .isEqualTo("\"" + userKey + "\"");
                 });
 
         }
@@ -71,10 +65,10 @@ public class Auth0TokenIssuerTest {
 
                         TokenMetadata tokenMetadataWithClaim = TokenFixture.createTokenMetadataOfSecretWithClaim(
                             secret, claimName);
+
                         String token = auth0TokenIssuer.makeToken(tokenMetadataWithClaim);
 
-                        Claim expect = JWT.require(Algorithm.HMAC256(secret)).build().verify(token)
-                            .getClaim(claimName);
+                        Claim expect = getDecodedJWTFrom(token).getClaim(claimName);
 
                         assertThat(expect).isNotNull();
                 }
@@ -87,13 +81,18 @@ public class Auth0TokenIssuerTest {
                             secret);
                         String token = auth0TokenIssuer.makeToken(tokenMetadataWithOutClaim);
 
-                        Claim expect = JWT.require(Algorithm.HMAC256(secret)).build().verify(token)
-                            .getClaim(claimName);
+                        Claim expect = getDecodedJWTFrom(token).getClaim(claimName);
 
                         assertThat(expect.isNull()).isTrue();
                 }
 
 
+        }
+
+        private DecodedJWT getDecodedJWTFrom(String token) {
+
+                return JWT.require(Algorithm.HMAC256(secret)).build()
+                    .verify(token);
         }
 
 }
