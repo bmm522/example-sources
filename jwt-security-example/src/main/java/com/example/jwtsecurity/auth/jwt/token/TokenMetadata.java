@@ -40,14 +40,11 @@ public record TokenMetadata(
 
         public boolean isExistClaim() {
 
+                System.out.println(claim);
                 return !ObjectUtils.isEmpty(claim);
         }
 
         public Date getExpiresAtOfDateType(LocalDateTime now) {
-
-                if (now == null) {
-                        throw new NullPointerException("현재 시각은 null 일 수 없습니다.");
-                }
                 LocalDateTime expirationDateTime = now.plusNanos(this.expirationTime * 1000000);
                 return Date.from(expirationDateTime.atZone(ZoneId.systemDefault()).toInstant());
         }
