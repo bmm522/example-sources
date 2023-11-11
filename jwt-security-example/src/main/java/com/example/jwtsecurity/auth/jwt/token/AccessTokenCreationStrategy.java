@@ -17,13 +17,10 @@ public class AccessTokenCreationStrategy implements TokenCreationStrategy {
         @Override
         public Token execute(AuthenticationAble authenticationAble) {
 
-                return tokenIssuer.makeToken(TokenMetadata.of(authenticationAble.getUserKey(),
-                    tokenProperties.getSecret(),
-                    tokenProperties.getAccessTokenSubject(),
-                    tokenProperties.getAccessTokenExpirationTime(),
-                    tokenProperties.getAccessTokenClaim(),
-                    tokenProperties.getAccessTokenPrefix()));
+                String token = tokenIssuer.makeToken(
+                    TokenMetadata.createWithClaim(authenticationAble, tokenProperties));
 
+                return Token.of(tokenProperties.getAccessTokenPrefix() , token);
         }
 
 }

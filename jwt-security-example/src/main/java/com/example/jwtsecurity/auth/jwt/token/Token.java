@@ -11,8 +11,8 @@ public class Token {
 
         private String token;
 
-        public static Token from(final String token) {
-                return new Token(token);
+        public static Token of(final String prefix, final String token) {
+                return new Token(prefix + token);
         }
 
 
