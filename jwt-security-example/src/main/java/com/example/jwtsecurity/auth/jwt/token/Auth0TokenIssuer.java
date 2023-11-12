@@ -5,28 +5,41 @@ import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class Auth0TokenIssuer implements TokenIssuer {
 
-        @Override
-        public Token makeToken(final TokenMetadata tokenMetadata) {
+	@Override
+	public Token makeToken (final TokenMetadata tokenMetadata) {
+		return Token.of(makeTokenString(tokenMetadata));
+	}
 
-                Builder jwtBuilder = JWT.create()
-                    .withSubject(tokenMetadata.subject())
-                    .withExpiresAt(tokenMetadata.getExpiresAtOfDateType(LocalDateTime.now()));
+	private String makeTokenString (TokenMetadata tokenMetadata) {
+		Builder builder = JWT.create()
+		  .withSubject(tokenMetadata.subject())
+		  .withExpiresAt(getExpiresAt(tokenMetadata));
+        
+        addClaimIfPresent(builder, tokenMetadata);
 
-                if (isExistClaim(tokenMetadata)) {
-                        jwtBuilder.withClaim(tokenMetadata.claim(), tokenMetadata.userKey());
-                }
+		return builder.sign(Algorithm.HMAC256(tokenMetadata.secret()));
+	}
 
-                String token =  jwtBuilder.sign(Algorithm.HMAC256(tokenMetadata.secret()));
-                return Token.of(token);
-        }
+	private Date getExpiresAt (TokenMetadata tokenMetadata) {
+		return tokenMetadata.getExpiresAtOfDateType(LocalDateTime.now());
+	}
 
-        private boolean isExistClaim(TokenMetadata tokenMetadata) {
-                return tokenMetadata.isExistClaim();
-        }
+	private void addClaimIfPresent (Builder builder, TokenMetadata tokenMetadata) {
+		if (isExistClaim(tokenMetadata)) {
+			builder.withClaim(tokenMetadata.claim(), tokenMetadata.userKey());
+		}
+
+	}
+
+	private boolean isExistClaim (TokenMetadata tokenMetadata) {
+		return tokenMetadata.isExistClaim();
+	}
 
 }

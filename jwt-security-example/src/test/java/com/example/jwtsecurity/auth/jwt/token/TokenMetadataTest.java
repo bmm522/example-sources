@@ -3,58 +3,39 @@ package com.example.jwtsecurity.auth.jwt.token;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.example.jwtsecurity.auth.AuthenticationAble;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
-public class TokenMetadataTest {
 
-	@Mock
-	TokenProperties tokenProperties;
+public class TokenMetadataTest extends TokenTestFixture{
 
-	TestUser testUser;
 
-	long expirationTime = 1000000L;
 
-	@BeforeEach
-	void setUp () {
-		testUser = new TestUser();
-	}
 
 	@Test
-	@DisplayName("클레임이 있는 TokenMetadata 생성 시 isExistClaim은 true를 반환한다.")
-	void shouldReturnTrueForIsExistClaimWhenCreatedWithClaim () {
+	void 클레임이_있는_TokenMetadata_생성_시_isExistClaim은_true를_반환한다 () {
 		when(tokenProperties.getAccessTokenClaim()).thenReturn("testClaim");
-		TokenMetadata actual = TokenMetadata.createWithClaim(testUser,
+		TokenMetadata actual = TokenMetadata.createWithClaim(getTestUser(),
 			tokenProperties);
 
 		assertThat(actual.isExistClaim()).isTrue();
 	}
 
 	@Test
-	@DisplayName("클레임이 없는 TokenMetadata 생성 시 isExistClaim은 false를 반환한다.")
-	void shouldReturnFalseForIsExistClaimWhenCreatedWithoutClaim () {
-		TokenMetadata actual = TokenMetadata.createWithOutClaim(testUser,
+	void 클레임이_없는_TokenMetadata_생성_시_isExistClaim은_false를_반환한다 () {
+		TokenMetadata actual = TokenMetadata.createWithOutClaim(getTestUser(),
 			tokenProperties);
 
 		assertThat(actual.isExistClaim()).isFalse();
 	}
 
+
 	@Test
-	@DisplayName("현재시간에 만료시간을 더한 날짜를 DATE 타입으로 정확히 반환한다.")
-	void shouldReturnCorrectDateTypeForExpirationTime () {
-		TokenMetadata tokenMetadata = TokenFixture.createTokenMetadata(expirationTime);
+	void 현재시간에_만료시간을_더한_날짜를_DATE_타입으로_정확히_반환한다 () {
+		TokenMetadata tokenMetadata = createTokenMetadata(expirationTime);
 		LocalDateTime now = LocalDateTime.now();
 
 		Date expect = Date.from(
@@ -64,13 +45,6 @@ public class TokenMetadataTest {
 		assertThat(actual).isEqualTo(expect);
 	}
 
-	class TestUser implements AuthenticationAble {
 
-		@Override
-		public String getUserKey () {
-			return "testUserKey";
-		}
-
-	}
 
 }
