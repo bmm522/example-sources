@@ -5,6 +5,6 @@ import com.example.jwtsecurity.auth.jwt.token.TokenMetadata;
 import java.time.LocalDateTime;
 public interface TokenIssuer {
 
-        String makeToken(TokenMetadata tokenMetadata);
+        Token makeToken(TokenMetadata tokenMetadata);
 
 }

@@ -17,10 +17,10 @@ public class RefreshTokenCreationStrategy implements TokenCreationStrategy {
         @Override
         public Token execute(AuthenticationAble authenticationAble) {
 
-                String token = tokenIssuer.makeToken(
+                Token token = tokenIssuer.makeToken(
                     TokenMetadata.createWithOutClaim(authenticationAble, tokenProperties));
-
-                return Token.of(tokenProperties.getRefreshTokenPrefix(), token);
+                token.setPrefix(tokenProperties.getRefreshTokenPrefix());
+                return token;
         }
 
 }

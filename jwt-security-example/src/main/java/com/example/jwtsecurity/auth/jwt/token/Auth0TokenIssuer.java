@@ -11,17 +11,22 @@ import org.springframework.stereotype.Component;
 public class Auth0TokenIssuer implements TokenIssuer {
 
         @Override
-        public String makeToken(final TokenMetadata tokenMetadata) {
+        public Token makeToken(final TokenMetadata tokenMetadata) {
 
                 Builder jwtBuilder = JWT.create()
                     .withSubject(tokenMetadata.subject())
                     .withExpiresAt(tokenMetadata.getExpiresAtOfDateType(LocalDateTime.now()));
 
-                if (tokenMetadata.isExistClaim()) {
+                if (isExistClaim(tokenMetadata)) {
                         jwtBuilder.withClaim(tokenMetadata.claim(), tokenMetadata.userKey());
                 }
 
-                return jwtBuilder.sign(Algorithm.HMAC256(tokenMetadata.secret()));
+                String token =  jwtBuilder.sign(Algorithm.HMAC256(tokenMetadata.secret()));
+                return Token.of(token);
+        }
+
+        private boolean isExistClaim(TokenMetadata tokenMetadata) {
+                return tokenMetadata.isExistClaim();
         }
 
 }

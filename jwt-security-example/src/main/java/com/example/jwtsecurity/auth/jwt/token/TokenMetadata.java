@@ -17,13 +17,12 @@ public record TokenMetadata(
 
 	public static TokenMetadata of (final String userKey, final String secret,
 		final String subject, final long expirationTime, final String claim) {
-
+		validateCheckExpiresAt(expirationTime);
 		return new TokenMetadata(userKey, secret, subject, expirationTime, claim);
 	}
 	public static TokenMetadata createWithClaim (AuthenticationAble authenticationAble,
 		TokenProperties tokenProperties) {
-
-		return new TokenMetadata(authenticationAble.getUserKey(),
+		return TokenMetadata.of(authenticationAble.getUserKey(),
 			tokenProperties.getSecretKey(),
 			tokenProperties.getAccessTokenSubject(),
 			tokenProperties.getAccessTokenExpirationTime(),
@@ -31,8 +30,7 @@ public record TokenMetadata(
 	}
 	public static TokenMetadata createWithOutClaim (AuthenticationAble authenticationAble,
 		TokenProperties tokenProperties) {
-
-		return new TokenMetadata(authenticationAble.getUserKey(),
+		return TokenMetadata.of(authenticationAble.getUserKey(),
 			tokenProperties.getSecretKey(),
 			tokenProperties.getRefreshTokenSubject(),
 			tokenProperties.getRefreshTokenExpirationTime(),
@@ -46,6 +44,12 @@ public record TokenMetadata(
 	public Date getExpiresAtOfDateType (LocalDateTime now) {
 		LocalDateTime expirationDateTime = now.plusNanos(this.expirationTime * 1000000);
 		return Date.from(expirationDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	private static void validateCheckExpiresAt(Long expirationTime) {
+		if(expirationTime < 0) {
+			throw new IllegalArgumentException("만료 시간에 음수는 들어 올 수 없습니다.");
+		}
 	}
 
 }

@@ -11,8 +11,12 @@ public class Token {
 
         private String token;
 
-        public static Token of(final String prefix, final String token) {
-                return new Token(prefix + token);
+        public static Token of( final String token) {
+                return new Token(token);
+        }
+
+        public void setPrefix(final String prefix) {
+                this.token = prefix + token;
         }
 
 
