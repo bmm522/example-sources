@@ -14,12 +14,10 @@ public class Auth0TokenIssuer implements TokenIssuer {
 
   @Override
   public Token makeToken(final TokenMetadata tokenMetadata) {
-
     return Token.of(makeTokenString(tokenMetadata));
   }
 
   private String makeTokenString(TokenMetadata tokenMetadata) {
-
     Builder builder = JWT.create()
       .withSubject(tokenMetadata.subject())
       .withExpiresAt(getExpiresAt(tokenMetadata));
@@ -30,20 +28,16 @@ public class Auth0TokenIssuer implements TokenIssuer {
   }
 
   private Date getExpiresAt(TokenMetadata tokenMetadata) {
-
     return tokenMetadata.getExpiresAtOfDateType(LocalDateTime.now());
   }
 
   private void addClaimIfPresent(Builder builder, TokenMetadata tokenMetadata) {
-
     if (isExistClaim(tokenMetadata)) {
       builder.withClaim(tokenMetadata.claim(), tokenMetadata.userKey());
     }
-
   }
 
   private boolean isExistClaim(TokenMetadata tokenMetadata) {
-
     return tokenMetadata.isExistClaim();
   }
 

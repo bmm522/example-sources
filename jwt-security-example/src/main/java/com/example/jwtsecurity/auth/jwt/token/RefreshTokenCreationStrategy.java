@@ -10,17 +10,17 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class RefreshTokenCreationStrategy implements TokenCreationStrategy {
 
-        private final TokenProperties tokenProperties;
+  private final TokenProperties tokenProperties;
 
-        private final TokenIssuer tokenIssuer;
+  private final TokenIssuer tokenIssuer;
 
-        @Override
-        public Token execute(AuthenticationAble authenticationAble) {
+  @Override
+  public Token execute(AuthenticationAble authenticationAble) {
+    Token token = tokenIssuer.makeToken(
+      TokenMetadata.createWithOutClaim(authenticationAble, tokenProperties));
+    token.setPrefix(tokenProperties.getRefreshTokenPrefix());
 
-                Token token = tokenIssuer.makeToken(
-                    TokenMetadata.createWithOutClaim(authenticationAble, tokenProperties));
-                token.setPrefix(tokenProperties.getRefreshTokenPrefix());
-                return token;
-        }
+    return token;
+  }
 
 }
