@@ -12,11 +12,9 @@ import org.junit.jupiter.api.Test;
 
 public class TokenMetadataTest extends TokenTestFixture {
 
-
-
-
   @Test
-  void 클레임이_있는_TokenMetadata_생성_시_isExistClaim은_true를_반환한다() {
+  @DisplayName("클레임이 있는 TokenMetadata 생성 시 isExistClaim은 true를 반환한다")
+  void shouldReturnTrueForIsExistClaimWhenCreatedWithClaim() {
     when(tokenProperties.getAccessTokenClaim()).thenReturn("testClaim");
 
     TokenMetadata actual = TokenMetadata.createWithClaim(getTestUser(),
@@ -26,7 +24,8 @@ public class TokenMetadataTest extends TokenTestFixture {
   }
 
   @Test
-  void 클레임이_없는_TokenMetadata_생성_시_isExistClaim은_false를_반환한다() {
+  @DisplayName("클레임이 없는 TokenMetadata 생성 시 isExistClaim은 false를 반환한다")
+  void shouldReturnFalseForIsExistClaimWhenCreatedWithoutClaim() {
     TokenMetadata actual = TokenMetadata.createWithOutClaim(getTestUser(),
       tokenProperties);
 
@@ -35,7 +34,8 @@ public class TokenMetadataTest extends TokenTestFixture {
 
 
   @Test
-  void 현재시간에_만료시간을_더한_날짜를_DATE_타입으로_정확히_반환한다() {
+  @DisplayName("현재시간에 만료시간을 더한 날짜를 DATE 타입으로 정확히 반환한다")
+  void shouldReturnCorrectDateTypeForExpirationTime() {
     TokenMetadata tokenMetadata = createTokenMetadata(expirationTime);
     LocalDateTime now = LocalDateTime.now();
 

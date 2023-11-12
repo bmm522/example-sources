@@ -24,10 +24,12 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
   }
 
   @Nested
-  class TokenMetadata의_정보가 {
+  @DisplayName("TokenMetadata의 정보가")
+  class TokenMetadataInformation {
 
     @Test
-    void 정상적이면_해당_정보를_가진_토큰이_반환된다() {
+    @DisplayName("정상적이면 해당 정보를 가진 토큰이 반환된다")
+    void shouldReturnTokenWithGivenInformationWhenMetadataIsValid() {
       TokenMetadata tokenMetadata = TokenMetadata.of(userKey, secret, subject, expirationTime,
         claimName);
 
@@ -44,13 +46,13 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
 
   }
 
-
-
   @Nested
-  class TokenMetadata에_claim이 {
+  @DisplayName("TokenMetadata에 claim이")
+  class TokenMetadataClaim {
 
     @Test
-    void 있을땐_claim이_존재하는_JWT_토큰으로_반환() {
+    @DisplayName("있을땐 claim이 존재하는 JWT 토큰으로 반환")
+    void shouldReturnJwtTokenWithClaimWhenClaimExists() {
       TokenMetadata tokenMetadataWithClaim = createTokenMetadataOfSecretWithClaim(
         secret, claimName);
       Token result = auth0TokenIssuer.makeToken(tokenMetadataWithClaim);
@@ -60,7 +62,8 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
     }
 
     @Test
-    void 없을땐_claim이_존재하지_않는_JWT_토큰으로_반환() {
+    @DisplayName("없을땐 claim이 존재하지 않는 JWT 토큰으로 반환")
+    void shouldReturnJwtTokenWithoutClaimWhenClaimDoesNotExist() {
       TokenMetadata tokenMetadataWithOutClaim = createTokenMetadataOfSecretWithOutClaim(secret);
       Token result = auth0TokenIssuer.makeToken(tokenMetadataWithOutClaim);
       Claim actual = getDecodedJWTFrom(result).getClaim(claimName);

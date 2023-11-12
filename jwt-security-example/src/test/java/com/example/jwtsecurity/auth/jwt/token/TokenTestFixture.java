@@ -2,10 +2,10 @@ package com.example.jwtsecurity.auth.jwt.token;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.jwtsecurity.auth.AuthenticationAble;
-
 @ExtendWith(MockitoExtension.class)
 public class TokenTestFixture {
 
