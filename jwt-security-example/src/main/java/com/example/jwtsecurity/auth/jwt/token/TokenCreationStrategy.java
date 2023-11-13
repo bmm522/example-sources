@@ -4,6 +4,6 @@ import com.example.jwtsecurity.auth.AuthenticationAble;
 
 public interface TokenCreationStrategy {
 
-        Token execute(AuthenticationAble authenticationAble);
+        Token execute(TokenMetadata tokenMetadata);
 
 }

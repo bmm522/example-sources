@@ -3,19 +3,15 @@ package com.example.jwtsecurity.auth;
 
 
 
-public interface AuthenticationService<T>{
+import com.example.jwtsecurity.auth.jwt.token.Token;
+public interface AuthenticationService<T> {
 
+    T generatePayload(AuthenticationAble authenticationAble);
 
-        /**
-         * @className AuthenticationService
-         * @auther rlawl
-         * @date 2023-11-09
-         * @discription
-         * @param authenticationAble
-         * @return
-         */
-        T generatePayload(AuthenticationAble authenticationAble);
+    void validate();
 
-        void validate();
+    boolean isExpiredAccessToken(Token accessToken);
+
+    boolean isExpiredRefreshToken(Token refreshToken);
 
 }

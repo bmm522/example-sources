@@ -31,7 +31,7 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
     @DisplayName("정상적이면 해당 정보를 가진 토큰이 반환된다")
     void shouldReturnTokenWithGivenInformationWhenMetadataIsValid() {
       TokenMetadata tokenMetadata = TokenMetadata.of(userKey, secret, subject, expirationTime,
-        claimName);
+        prefix,claimName);
 
       Token result = auth0TokenIssuer.makeToken(tokenMetadata);
       DecodedJWT actual = getDecodedJWTFrom(result);

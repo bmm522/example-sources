@@ -12,9 +12,9 @@ public class TokenGeneratorImpl implements TokenGenerator {
 
         @Override
         public Token generate(TokenCreationStrategy tokenCreationStrategy,
-            AuthenticationAble authenticationAble) {
+            TokenMetadata tokenMetadata) {
 
-                return tokenCreationStrategy.execute(authenticationAble);
+                return tokenCreationStrategy.execute(tokenMetadata);
         }
 
 }

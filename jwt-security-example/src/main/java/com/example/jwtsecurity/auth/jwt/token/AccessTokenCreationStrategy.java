@@ -10,15 +10,13 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class AccessTokenCreationStrategy implements TokenCreationStrategy {
 
-  private final TokenProperties tokenProperties;
-
   private final TokenIssuer tokenIssuer;
 
   @Override
-  public Token execute(AuthenticationAble authenticationAble) {
-    Token token = tokenIssuer.makeToken(
-      TokenMetadata.createWithClaim(authenticationAble, tokenProperties));
-    token.setPrefix(tokenProperties.getAccessTokenPrefix());
+  public Token execute(TokenMetadata tokenMetadata) {
+    Token token = tokenIssuer.makeToken(tokenMetadata);
+    token.setPrefix(tokenMetadata.prefix());
+
     return token;
   }
 
