@@ -5,7 +5,6 @@ import com.example.jwtsecurity.auth.jwt.token.RefreshTokenCreationStrategy;
 import com.example.jwtsecurity.auth.jwt.token.Token;
 import com.example.jwtsecurity.auth.jwt.token.TokenGenerator;
 import com.example.jwtsecurity.auth.jwt.token.TokenMetadata;
-import com.example.jwtsecurity.auth.jwt.token.TokenMetadatas;
 import org.springframework.stereotype.Component;
 
 import com.example.jwtsecurity.auth.PayloadGenerator;

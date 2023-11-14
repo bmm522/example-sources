@@ -1,10 +1,7 @@
 package com.example.jwtsecurity.auth.jwt;
 
-import com.example.jwtsecurity.auth.Payload;
 import com.example.jwtsecurity.auth.jwt.token.Token;
 import com.example.jwtsecurity.auth.jwt.token.TokenMetadata;
-import com.example.jwtsecurity.auth.jwt.token.TokenMetadatas;
-import com.example.jwtsecurity.auth.jwt.token.TokenProperties;
 import org.springframework.stereotype.Component;
 
 import com.example.jwtsecurity.auth.AuthenticationAble;
@@ -22,14 +19,14 @@ public class JwtAuthenticationService implements AuthenticationService<JwtPayloa
 
     private final AuthenticationValidator authenticationValidator;
 
-    private final TokenProperties tokenProperties;
+    private final JwtTokenProperties jwtTokenProperties;
 
     @Override
     public JwtPayload generatePayload(AuthenticationAble authenticationAble) {
         TokenMetadata accessTokenMetadata = TokenMetadata.createAccessTokenMetadata(
-            authenticationAble, tokenProperties);
+            authenticationAble, jwtTokenProperties);
         TokenMetadata refreshTokenMetadata = TokenMetadata.createRefreshTokenMetadata(
-            authenticationAble, tokenProperties);
+            authenticationAble, jwtTokenProperties);
         return payloadGenerator.generate(accessTokenMetadata, refreshTokenMetadata);
     }
 
@@ -38,12 +35,12 @@ public class JwtAuthenticationService implements AuthenticationService<JwtPayloa
     @Override
     public boolean isExpiredAccessToken(final Token accessToken) {
         return authenticationValidator.isExpiredAccessToken(accessToken,
-            tokenProperties.getSecretKey());
+            jwtTokenProperties.getSecretKey());
     }
     @Override
     public boolean isExpiredRefreshToken(final Token refreshToken) {
         return authenticationValidator.isExpiredRefreshToken(refreshToken,
-            tokenProperties.getSecretKey());
+            jwtTokenProperties.getSecretKey());
     }
 
 

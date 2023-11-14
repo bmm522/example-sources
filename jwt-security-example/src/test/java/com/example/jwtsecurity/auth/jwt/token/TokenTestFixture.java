@@ -2,6 +2,7 @@ package com.example.jwtsecurity.auth.jwt.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.jwtsecurity.auth.jwt.JwtTokenProperties;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -13,7 +14,7 @@ import com.example.jwtsecurity.auth.AuthenticationAble;
 public class TokenTestFixture {
 
     @Mock
-    TokenProperties tokenProperties;
+    JwtTokenProperties jwtTokenProperties;
 
     public String secret = "testSecretKey1234567812345678";
 

@@ -2,6 +2,7 @@ package com.example.jwtsecurity.auth.jwt.token;
 
 import com.example.jwtsecurity.auth.AuthenticationAble;
 
+import com.example.jwtsecurity.auth.jwt.JwtTokenProperties;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -23,22 +24,22 @@ public record TokenMetadata(
     }
 
     public static TokenMetadata createAccessTokenMetadata(AuthenticationAble authenticationAble,
-        TokenProperties tokenProperties) {
+        JwtTokenProperties jwtTokenProperties) {
         return TokenMetadata.of(authenticationAble.getUserKey(),
-            tokenProperties.getSecretKey(),
-            tokenProperties.getAccessTokenSubject(),
-            tokenProperties.getAccessTokenExpirationTime(),
-            tokenProperties.getAccessTokenPrefix(),
-            tokenProperties.getAccessTokenClaim());
+            jwtTokenProperties.getSecretKey(),
+            jwtTokenProperties.getAccessTokenSubject(),
+            jwtTokenProperties.getAccessTokenExpirationTime(),
+            jwtTokenProperties.getAccessTokenPrefix(),
+            jwtTokenProperties.getAccessTokenClaim());
     }
 
     public static TokenMetadata createRefreshTokenMetadata(AuthenticationAble authenticationAble,
-        TokenProperties tokenProperties) {
+        JwtTokenProperties jwtTokenProperties) {
         return TokenMetadata.of(authenticationAble.getUserKey(),
-            tokenProperties.getSecretKey(),
-            tokenProperties.getRefreshTokenSubject(),
-            tokenProperties.getRefreshTokenExpirationTime(),
-            tokenProperties.getRefreshTokenPrefix(),
+            jwtTokenProperties.getSecretKey(),
+            jwtTokenProperties.getRefreshTokenSubject(),
+            jwtTokenProperties.getRefreshTokenExpirationTime(),
+            jwtTokenProperties.getRefreshTokenPrefix(),
             null);
     }
 
