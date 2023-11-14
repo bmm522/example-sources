@@ -2,8 +2,6 @@ package com.example.jwtsecurity.auth.jwt.token;
 
 import org.springframework.stereotype.Component;
 
-import com.example.jwtsecurity.auth.AuthenticationAble;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -13,8 +11,8 @@ public class TokenGeneratorImpl implements TokenGenerator {
         @Override
         public Token generate(TokenCreationStrategy tokenCreationStrategy,
             TokenMetadata tokenMetadata) {
-
-                return tokenCreationStrategy.execute(tokenMetadata);
+                Token token =  tokenCreationStrategy.execute(tokenMetadata);
+                return PrefixWrapper.of(tokenMetadata.prefix(), token);
         }
 
 }

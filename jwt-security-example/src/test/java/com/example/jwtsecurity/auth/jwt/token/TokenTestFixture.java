@@ -47,7 +47,7 @@ public class TokenTestFixture {
     public Token getAccessToken () {
         TokenMetadata accessTokenMetadata = createTokenMetadataOfSecretWithClaim(secret, claimName);
 
-        return Token.of(JWT.create()
+        return AccessToken.of(JWT.create()
             .withSubject(accessTokenMetadata.subject())
             .withExpiresAt(accessTokenMetadata.getExpiresAtOfDateType(LocalDateTime.now()))
             .withClaim(accessTokenMetadata.claim(), accessTokenMetadata.userKey())
@@ -57,7 +57,7 @@ public class TokenTestFixture {
     public Token getRefreshToken() {
         TokenMetadata refreshTokenMetadata = createTokenMetadataOfSecretWithOutClaim(secret);
 
-        return Token.of(JWT.create()
+        return RefreshToken.of(JWT.create()
             .withSubject(refreshTokenMetadata.subject())
             .withExpiresAt(refreshTokenMetadata.getExpiresAtOfDateType(LocalDateTime.now()))
             .sign(Algorithm.HMAC256(refreshTokenMetadata.secret())));

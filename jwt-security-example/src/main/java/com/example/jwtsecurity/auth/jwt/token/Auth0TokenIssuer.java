@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class Auth0TokenIssuer implements TokenIssuer {
 
   @Override
-  public Token makeToken(final TokenMetadata tokenMetadata) {
-    return Token.of(makeTokenString(tokenMetadata));
+  public String issue(final TokenMetadata tokenMetadata) {
+    return makeTokenString(tokenMetadata);
   }
 
   private String makeTokenString(TokenMetadata tokenMetadata) {

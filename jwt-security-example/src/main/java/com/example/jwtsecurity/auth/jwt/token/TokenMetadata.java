@@ -22,6 +22,25 @@ public record TokenMetadata(
         return new TokenMetadata(userKey, secret, subject, expirationTime, prefix, claim);
     }
 
+    public static TokenMetadata createAccessTokenMetadata(AuthenticationAble authenticationAble,
+        TokenProperties tokenProperties) {
+        return TokenMetadata.of(authenticationAble.getUserKey(),
+            tokenProperties.getSecretKey(),
+            tokenProperties.getAccessTokenSubject(),
+            tokenProperties.getAccessTokenExpirationTime(),
+            tokenProperties.getAccessTokenPrefix(),
+            tokenProperties.getAccessTokenClaim());
+    }
+
+    public static TokenMetadata createRefreshTokenMetadata(AuthenticationAble authenticationAble,
+        TokenProperties tokenProperties) {
+        return TokenMetadata.of(authenticationAble.getUserKey(),
+            tokenProperties.getSecretKey(),
+            tokenProperties.getRefreshTokenSubject(),
+            tokenProperties.getRefreshTokenExpirationTime(),
+            tokenProperties.getRefreshTokenPrefix(),
+            null);
+    }
 
     public boolean isExistClaim() {
         return !ObjectUtils.isEmpty(claim);

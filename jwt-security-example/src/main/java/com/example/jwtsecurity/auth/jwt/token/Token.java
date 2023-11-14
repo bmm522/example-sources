@@ -5,20 +5,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class Token {
 
-        private String token;
+public interface Token {
 
-        public static Token of( final String token) {
-                return new Token(token);
-        }
-
-        public void setPrefix(final String prefix) {
-                this.token = prefix + token;
-        }
-
+        void wrapPrefix(final String prefix);
 
 
 }

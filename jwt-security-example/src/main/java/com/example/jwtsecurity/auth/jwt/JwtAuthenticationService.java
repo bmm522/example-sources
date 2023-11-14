@@ -2,6 +2,7 @@ package com.example.jwtsecurity.auth.jwt;
 
 import com.example.jwtsecurity.auth.Payload;
 import com.example.jwtsecurity.auth.jwt.token.Token;
+import com.example.jwtsecurity.auth.jwt.token.TokenMetadata;
 import com.example.jwtsecurity.auth.jwt.token.TokenMetadatas;
 import com.example.jwtsecurity.auth.jwt.token.TokenProperties;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,11 @@ public class JwtAuthenticationService implements AuthenticationService<JwtPayloa
 
     @Override
     public JwtPayload generatePayload(AuthenticationAble authenticationAble) {
-        return payloadGenerator.generate(
-            TokenMetadatas.of(authenticationAble, tokenProperties));
+        TokenMetadata accessTokenMetadata = TokenMetadata.createAccessTokenMetadata(
+            authenticationAble, tokenProperties);
+        TokenMetadata refreshTokenMetadata = TokenMetadata.createRefreshTokenMetadata(
+            authenticationAble, tokenProperties);
+        return payloadGenerator.generate(accessTokenMetadata, refreshTokenMetadata);
     }
 
     public void validate() {

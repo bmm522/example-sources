@@ -2,8 +2,6 @@ package com.example.jwtsecurity.auth.jwt.token;
 
 import org.springframework.stereotype.Component;
 
-import com.example.jwtsecurity.auth.AuthenticationAble;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -15,10 +13,8 @@ public class RefreshTokenCreationStrategy implements TokenCreationStrategy {
 
   @Override
   public Token execute(TokenMetadata tokenMetadata) {
-    Token token = tokenIssuer.makeToken(tokenMetadata);
-    token.setPrefix(tokenMetadata.prefix());
-
-    return token;
+    String token =  tokenIssuer.issue(tokenMetadata);
+    return RefreshToken.of(token);
   }
 
 }

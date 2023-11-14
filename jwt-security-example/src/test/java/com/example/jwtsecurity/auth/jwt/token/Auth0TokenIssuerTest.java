@@ -33,7 +33,7 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
       TokenMetadata tokenMetadata = TokenMetadata.of(userKey, secret, subject, expirationTime,
         prefix,claimName);
 
-      Token result = auth0TokenIssuer.makeToken(tokenMetadata);
+      String result = auth0TokenIssuer.issue(tokenMetadata);
       DecodedJWT actual = getDecodedJWTFrom(result);
 
       assertSoftly(softly -> {
@@ -55,7 +55,7 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
     void shouldReturnJwtTokenWithClaimWhenClaimExists() {
       TokenMetadata tokenMetadataWithClaim = createTokenMetadataOfSecretWithClaim(
         secret, claimName);
-      Token result = auth0TokenIssuer.makeToken(tokenMetadataWithClaim);
+      String result = auth0TokenIssuer.issue(tokenMetadataWithClaim);
       Claim actual = getDecodedJWTFrom(result).getClaim(claimName);
 
       assertThat(actual).isNotNull();
@@ -65,7 +65,7 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
     @DisplayName("없을땐 claim이 존재하지 않는 JWT 토큰으로 반환")
     void shouldReturnJwtTokenWithoutClaimWhenClaimDoesNotExist() {
       TokenMetadata tokenMetadataWithOutClaim = createTokenMetadataOfSecretWithOutClaim(secret);
-      Token result = auth0TokenIssuer.makeToken(tokenMetadataWithOutClaim);
+      String result = auth0TokenIssuer.issue(tokenMetadataWithOutClaim);
       Claim actual = getDecodedJWTFrom(result).getClaim(claimName);
 
       assertThat(actual.isNull()).isTrue();
@@ -73,10 +73,10 @@ public class Auth0TokenIssuerTest extends TokenTestFixture {
 
   }
 
-  private DecodedJWT getDecodedJWTFrom(Token token) {
+  private DecodedJWT getDecodedJWTFrom(String token) {
 
     return JWT.require(Algorithm.HMAC256(secret)).build()
-      .verify(token.getToken());
+      .verify(token);
   }
 
 }
