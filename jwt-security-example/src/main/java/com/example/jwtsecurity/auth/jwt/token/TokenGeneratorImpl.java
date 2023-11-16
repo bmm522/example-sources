@@ -12,7 +12,7 @@ public class TokenGeneratorImpl implements TokenGenerator {
         public Token generate(TokenCreationStrategy tokenCreationStrategy,
             TokenMetadata tokenMetadata) {
                 Token token =  tokenCreationStrategy.execute(tokenMetadata);
-                return PrefixWrapper.of(tokenMetadata.prefix(), token);
+                return TokenPrefixWrapper.of(tokenMetadata.prefix(), token);
         }
 
 }

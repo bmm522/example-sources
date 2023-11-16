@@ -24,6 +24,7 @@ public class FixtureTokenMetadata {
         return TokenMetadata.of(USER_KEY, SECRET, SUBJECT, EXPIRATION_AT, PREFIX,
             null);
     }
+
     public static TokenMetadata createTokenMetadataWithExpirationAt(final Long expirationAt) {
         return TokenMetadata.of(USER_KEY, SECRET, SUBJECT, expirationAt, PREFIX,
             CLAIM);
@@ -32,6 +33,16 @@ public class FixtureTokenMetadata {
     public static TokenMetadata createTokenMetadataWithPrefix(final String prefix) {
         return TokenMetadata.of(USER_KEY, SECRET, SUBJECT, EXPIRATION_AT, prefix,
             CLAIM);
+    }
+
+    public static TokenMetadata createAccessTokenMetadata() {
+        return TokenMetadata.of(USER_KEY, SECRET, SUBJECT, EXPIRATION_AT, "Bearer ",
+            CLAIM);
+    }
+
+    public static TokenMetadata createRefreshTokenMetadata() {
+        return TokenMetadata.of(USER_KEY, SECRET, SUBJECT, EXPIRATION_AT, "RefreshToken ",
+            null);
     }
 
 
