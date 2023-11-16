@@ -21,4 +21,9 @@ public class RefreshToken implements Token {
         this.token = prefix + token;
     }
 
+    @Override
+    public String getValue() {
+        return token.toString();
+    }
+
 }

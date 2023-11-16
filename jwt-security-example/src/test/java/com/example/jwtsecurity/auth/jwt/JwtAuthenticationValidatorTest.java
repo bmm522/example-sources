@@ -1,20 +1,9 @@
 package com.example.jwtsecurity.auth.jwt;
 
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.example.jwtsecurity.auth.Payload;
-import com.example.jwtsecurity.auth.jwt.token.AccessToken;
-import com.example.jwtsecurity.auth.jwt.token.Token;
-import com.example.jwtsecurity.auth.jwt.token.TokenTestFixture;
-import java.time.LocalDateTime;
-import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-public class JwtAuthenticationValidatorTest extends TokenTestFixture {
+public class JwtAuthenticationValidatorTest {
 
 
     JwtAuthenticationValidator jwtAuthenticationValidator;

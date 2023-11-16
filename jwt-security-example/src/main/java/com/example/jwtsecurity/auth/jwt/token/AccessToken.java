@@ -20,5 +20,9 @@ public class AccessToken implements Token{
     public void wrapPrefix(final String prefix) {
         this.token = prefix + token;
     }
+    @Override
+    public String getValue() {
+        return token.toString();
+    }
 
 }

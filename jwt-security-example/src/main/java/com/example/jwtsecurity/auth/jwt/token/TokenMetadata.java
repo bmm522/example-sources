@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import java.util.Objects;
 import org.springframework.util.ObjectUtils;
 
 public record TokenMetadata(
@@ -44,7 +45,7 @@ public record TokenMetadata(
     }
 
     public boolean isExistClaim() {
-        return !ObjectUtils.isEmpty(claim);
+        return Objects.nonNull(claim);
     }
 
     public Date getExpiresAtOfDateType(LocalDateTime now) {

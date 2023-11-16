@@ -5,5 +5,7 @@ public interface Token {
 
         void wrapPrefix(final String prefix);
 
+        String getValue();
+
 
 }

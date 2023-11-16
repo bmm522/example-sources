@@ -8,12 +8,12 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class AccessTokenCreationStrategy implements TokenCreationStrategy {
 
-  private final TokenIssuer tokenIssuer;
+    private final TokenIssuer tokenIssuer;
 
-  @Override
-  public Token execute(TokenMetadata tokenMetadata) {
-    String token = tokenIssuer.issue(tokenMetadata);
-    return AccessToken.of(token);
-  }
+    @Override
+    public Token execute(TokenMetadata tokenMetadata) {
+        String token = tokenIssuer.issue(tokenMetadata);
+        return AccessToken.of(token);
+    }
 
 }
