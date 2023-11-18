@@ -7,5 +7,6 @@ public interface Token {
 
         String getValue();
 
+        boolean isStartsWith(final String prefix);
 
 }

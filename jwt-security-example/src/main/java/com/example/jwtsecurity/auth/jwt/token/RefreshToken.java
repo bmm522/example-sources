@@ -25,5 +25,9 @@ public class RefreshToken implements Token {
     public String getValue() {
         return token.toString();
     }
+    @Override
+    public boolean isStartsWith(final String prefix) {
+        return this.token.startsWith(prefix);
+    }
 
 }

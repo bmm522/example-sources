@@ -7,7 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureTokenMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,7 +1,7 @@
 package com.example.jwtsecurity.auth.jwt.token;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureToken;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureToken;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +17,7 @@ public class TokenPrefixWrapperTest {
     void plusPrefixWhenGenerate(Token token, String prefix) {
         Token result = TokenPrefixWrapper.of(prefix, token);
 
-        assertThat(result.getValue().startsWith(prefix)).isTrue();
+        assertThat(result.isStartsWith(prefix)).isTrue();
     }
 
 

@@ -5,9 +5,8 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureToken;
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureTokenMetadata;
-import java.util.stream.Stream;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureToken;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureTokenMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,8 +54,11 @@ public class TokenGeneratorTest {
             FixtureToken.createRefreshToken());
         Token actual = tokenGenerator.generate(refreshTokenCreationStrategy, tokenMetadata);
 
-        assertThat(actual.getValue().startsWith("RefreshToken ")).isTrue();
-        assertThat(actual.getClass()).isEqualTo(RefreshToken.class);
+        assertSoftly(softly -> {
+            softly.assertThat(actual.getValue().startsWith("RefreshToken ")).isTrue();
+            softly.assertThat(actual.getClass()).isEqualTo(RefreshToken.class);
+        });
+
     }
 
 

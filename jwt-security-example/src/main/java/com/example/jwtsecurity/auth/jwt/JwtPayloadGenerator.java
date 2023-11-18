@@ -7,13 +7,11 @@ import com.example.jwtsecurity.auth.jwt.token.TokenGenerator;
 import com.example.jwtsecurity.auth.jwt.token.TokenMetadata;
 import org.springframework.stereotype.Component;
 
-import com.example.jwtsecurity.auth.PayloadGenerator;
-
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class JwtPayloadGenerator implements PayloadGenerator<JwtPayload> {
+public class JwtPayloadGenerator  {
 
     private final TokenGenerator tokenGenerator;
 
@@ -21,7 +19,6 @@ public class JwtPayloadGenerator implements PayloadGenerator<JwtPayload> {
 
     private final RefreshTokenCreationStrategy refreshTokenCreationStrategy;
 
-    @Override
     public JwtPayload generate(TokenMetadata accessTokenMetadata,
         TokenMetadata refreshTokenMetadata) {
 

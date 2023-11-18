@@ -2,9 +2,8 @@ package com.example.jwtsecurity.auth.jwt.token;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.when;
 
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureTokenMetadata;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;

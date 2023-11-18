@@ -9,8 +9,8 @@ import com.example.jwtsecurity.auth.jwt.token.RefreshTokenCreationStrategy;
 import com.example.jwtsecurity.auth.jwt.token.Token;
 import com.example.jwtsecurity.auth.jwt.token.TokenGenerator;
 import com.example.jwtsecurity.auth.jwt.token.TokenMetadata;
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureToken;
-import com.example.jwtsecurity.auth.jwt.token.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureToken;
+import com.example.jwtsecurity.auth.jwt.fixture.FixtureTokenMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,5 +65,7 @@ public class JwtPayloadGeneratorTest {
         });
 
     }
+
+
 
 }

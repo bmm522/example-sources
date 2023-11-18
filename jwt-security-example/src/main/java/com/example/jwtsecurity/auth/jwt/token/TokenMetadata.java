@@ -1,6 +1,6 @@
 package com.example.jwtsecurity.auth.jwt.token;
 
-import com.example.jwtsecurity.auth.AuthenticationAble;
+import com.example.jwtsecurity.auth.jwt.JwtAuthenticationAble;
 
 import com.example.jwtsecurity.auth.jwt.JwtTokenProperties;
 import java.time.LocalDateTime;
@@ -8,25 +8,25 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import java.util.Objects;
-import org.springframework.util.ObjectUtils;
 
 public record TokenMetadata(
     String userKey,
     String secret,
     String subject,
-    long expirationTime,
+    Long expirationTime,
     String prefix,
     String claim) {
 
     public static TokenMetadata of(final String userKey, final String secret,
-        final String subject, final long expirationTime, final String prefix, final String claim) {
+        final String subject, final Long expirationTime, final String prefix, final String claim) {
         validateCheckExpiresAt(expirationTime);
         return new TokenMetadata(userKey, secret, subject, expirationTime, prefix, claim);
     }
 
-    public static TokenMetadata createAccessTokenMetadata(AuthenticationAble authenticationAble,
+    public static TokenMetadata createAccessTokenMetadata(
+        JwtAuthenticationAble jwtAuthenticationAble,
         JwtTokenProperties jwtTokenProperties) {
-        return TokenMetadata.of(authenticationAble.getUserKey(),
+        return TokenMetadata.of(jwtAuthenticationAble.getUserKey(),
             jwtTokenProperties.getSecretKey(),
             jwtTokenProperties.getAccessTokenSubject(),
             jwtTokenProperties.getAccessTokenExpirationTime(),
@@ -34,9 +34,10 @@ public record TokenMetadata(
             jwtTokenProperties.getAccessTokenClaim());
     }
 
-    public static TokenMetadata createRefreshTokenMetadata(AuthenticationAble authenticationAble,
+    public static TokenMetadata createRefreshTokenMetadata(
+        JwtAuthenticationAble jwtAuthenticationAble,
         JwtTokenProperties jwtTokenProperties) {
-        return TokenMetadata.of(authenticationAble.getUserKey(),
+        return TokenMetadata.of(jwtAuthenticationAble.getUserKey(),
             jwtTokenProperties.getSecretKey(),
             jwtTokenProperties.getRefreshTokenSubject(),
             jwtTokenProperties.getRefreshTokenExpirationTime(),
