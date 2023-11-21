@@ -5,11 +5,9 @@ package com.example.jwtsecurity.auth.jwt;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.jwtsecurity.auth.jwt.fixture.FixtureToken;
 import com.example.jwtsecurity.auth.jwt.fixture.FixtureTokenMetadata;
 import com.example.jwtsecurity.auth.jwt.token.Token;
@@ -54,9 +52,9 @@ public class JwtValidatorTest {
         @DisplayName("만료되면 true를 반환한다.")
         void shouldReturnTrueForExpiredTokens(Token token, String parameterInfo) {
 
-            when(tokenDecoder.decodedJWT(any(), any())).thenThrow(TokenExpiredException.class);
+            when(tokenDecoder.isTokenExpired(any(), any())).thenReturn(true);
 
-            boolean result = jwtValidator.isExpiredToken(token, secret);
+            boolean result = jwtValidator.isTokenExpired(token, secret);
 
             assertThat(result).isTrue();
         }
@@ -66,9 +64,9 @@ public class JwtValidatorTest {
         @DisplayName("만료되지 않으면 false를 반환한다.")
         void shouldReturnFalseForNonExpiredTokens(Token token, String parameterInfo) {
 
-            when(tokenDecoder.decodedJWT(any(Token.class), anyString())).thenReturn(null);
+            when(tokenDecoder.isTokenExpired(any(Token.class), anyString())).thenReturn(false);
 
-            boolean result = jwtValidator.isExpiredToken(token,secret);
+            boolean result = jwtValidator.isTokenExpired(token,secret);
 
             assertThat(result).isFalse();
         }

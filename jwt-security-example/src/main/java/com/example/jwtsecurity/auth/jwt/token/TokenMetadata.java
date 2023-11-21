@@ -1,6 +1,6 @@
 package com.example.jwtsecurity.auth.jwt.token;
 
-import com.example.jwtsecurity.auth.jwt.JwtAuthenticationAble;
+import com.example.jwtsecurity.auth.jwt.AuthenticationAble;
 
 import com.example.jwtsecurity.auth.jwt.JwtTokenProperties;
 import java.time.LocalDateTime;
@@ -24,9 +24,9 @@ public record TokenMetadata(
     }
 
     public static TokenMetadata createAccessTokenMetadata(
-        JwtAuthenticationAble jwtAuthenticationAble,
+        AuthenticationAble authenticationAble,
         JwtTokenProperties jwtTokenProperties) {
-        return TokenMetadata.of(jwtAuthenticationAble.getUserKey(),
+        return TokenMetadata.of(authenticationAble.getUserKey(),
             jwtTokenProperties.getSecretKey(),
             jwtTokenProperties.getAccessTokenSubject(),
             jwtTokenProperties.getAccessTokenExpirationTime(),
@@ -35,9 +35,9 @@ public record TokenMetadata(
     }
 
     public static TokenMetadata createRefreshTokenMetadata(
-        JwtAuthenticationAble jwtAuthenticationAble,
+        AuthenticationAble authenticationAble,
         JwtTokenProperties jwtTokenProperties) {
-        return TokenMetadata.of(jwtAuthenticationAble.getUserKey(),
+        return TokenMetadata.of(authenticationAble.getUserKey(),
             jwtTokenProperties.getSecretKey(),
             jwtTokenProperties.getRefreshTokenSubject(),
             jwtTokenProperties.getRefreshTokenExpirationTime(),

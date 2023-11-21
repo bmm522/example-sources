@@ -1,6 +1,6 @@
 package com.example.jwtsecurity.auth.jwt;
 
-public interface JwtAuthenticationAble {
+public interface AuthenticationAble {
 
         String getUserKey ();
 }
