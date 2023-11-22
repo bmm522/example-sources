@@ -9,4 +9,6 @@ public interface Token {
 
         boolean isStartsWith(final String prefix);
 
+        boolean isNotStartsWith(final String prefix);
+
 }

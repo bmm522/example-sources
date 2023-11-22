@@ -16,4 +16,10 @@ public class JwtValidator {
        return tokenDecoder.isTokenExpired(token, secretKey);
     }
 
+    public void validateCheckPrefix(Token token, String prefix) {
+        if(token.isNotStartsWith(prefix)) {
+            throw new RuntimeException("올바르지 않은 prefix 입니다.");
+        }
+    }
+
 }

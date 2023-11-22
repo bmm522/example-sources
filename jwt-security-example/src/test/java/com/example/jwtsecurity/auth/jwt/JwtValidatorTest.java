@@ -3,6 +3,7 @@ package com.example.jwtsecurity.auth.jwt;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -12,11 +13,13 @@ import com.example.jwtsecurity.auth.jwt.fixture.FixtureToken;
 import com.example.jwtsecurity.auth.jwt.fixture.FixtureTokenMetadata;
 import com.example.jwtsecurity.auth.jwt.token.Token;
 import com.example.jwtsecurity.auth.jwt.token.TokenDecoder;
+import com.example.jwtsecurity.auth.jwt.token.TokenPrefixWrapper;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -47,6 +50,7 @@ public class JwtValidatorTest {
     @Nested
     @DisplayName("토큰이")
     class TokenExpirationValidationTests {
+
         @ParameterizedTest(name = "parameterInfo: {1}")
         @MethodSource("provideExpiredTokens")
         @DisplayName("만료되면 true를 반환한다.")
@@ -86,6 +90,23 @@ public class JwtValidatorTest {
         }
     }
 
+    @ParameterizedTest(name = "parameterInfo: {1}")
+    @MethodSource("provideWrapTokens")
+    @DisplayName("올바르지 않은 prefix가 들어오면 예외를 발생한다")
+    void test(Token token, String parameterInfo) {
+        String wrongPrefix = "wrongPrefix ";
+
+        assertThatThrownBy(() -> jwtValidator.validateCheckPrefix(token, wrongPrefix)).isInstanceOf(RuntimeException.class);
+    }
+
+    private static Stream<Arguments> provideWrapTokens() {
+        Token wrapPrefixAccessToken = TokenPrefixWrapper.of("testPrefix ", FixtureToken.createAccessToken());
+        Token wrapPrefixRefreshToken = TokenPrefixWrapper.of("testPrefix", FixtureToken.createRefreshToken());
+        return Stream.of(
+            Arguments.of(wrapPrefixAccessToken, "AccessToken"),
+            Arguments.of(wrapPrefixRefreshToken, "RefreshToken")
+        );
+    }
 
 
 

@@ -28,5 +28,9 @@ public class AccessToken implements Token{
     public boolean isStartsWith(final String prefix) {
         return this.token.startsWith(prefix);
     }
+    @Override
+    public boolean isNotStartsWith(final String prefix) {
+        return !this.token.startsWith(prefix);
+    }
 
 }

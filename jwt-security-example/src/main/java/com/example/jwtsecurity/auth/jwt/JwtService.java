@@ -52,6 +52,14 @@ public class JwtService {
         return TokenMetadata.createRefreshTokenMetadata(authenticationAble, jwtTokenProperties);
     }
 
+    public void checkValidAccessToken(final Token accessToken) {
+        jwtValidator.validateCheckPrefix(accessToken, jwtTokenProperties.getAccessTokenPrefix());
+    }
+
+    public void checkValidRefreshToken(final Token refreshToken) {
+        jwtValidator.validateCheckPrefix(refreshToken, jwtTokenProperties.getRefreshTokenPrefix());
+    }
+
 //    public JwtPayload reIssueIfTokenExpired(AuthenticationAble authenticationAble,
 //        final JwtPayload jwtPayload) {
 //        if (isTokenExpired(jwtPayload)) {
