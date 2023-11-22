@@ -1,4 +1,4 @@
-package com.example.jwtsecurity.security.jwt;
+package com.example.jwtsecurity.security;
 
 public interface AuthenticationAble {
 

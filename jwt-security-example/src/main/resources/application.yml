@@ -1,12 +1,7 @@
-token:
-  secret: "test123412341234"
-  accessToken:
-    prefix: "Bearer "
-    subject: "testSubject"
-    claim: "testClaim"
-    expirationTime: 100000L
-  refreshToken:
-    prefix: "RefreshToken "
-    subject: "testSubject"
-    expirationTime: 100000000L
-
+spring:
+  profiles:
+    active:
+      - dev
+    include:
+      - jasypt
+      - jwt

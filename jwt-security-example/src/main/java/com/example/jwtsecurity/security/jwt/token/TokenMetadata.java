@@ -1,6 +1,6 @@
 package com.example.jwtsecurity.security.jwt.token;
 
-import com.example.jwtsecurity.security.jwt.AuthenticationAble;
+import com.example.jwtsecurity.security.AuthenticationAble;
 
 import com.example.jwtsecurity.security.jwt.JwtTokenProperties;
 import java.time.LocalDateTime;
