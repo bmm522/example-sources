@@ -1,13 +1,17 @@
 package com.example.jwtsecurity.security;
-import com.example.jwtsecurity.common.YN;
+import com.example.jwtsecurity.security.cookie.CookieParser;
 import com.example.jwtsecurity.security.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import java.util.Objects;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.util.StringUtils;
 public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
 
     private final JwtService jwtService;
@@ -21,12 +25,13 @@ public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response
         , final FilterChain chain) throws IOException, ServletException {
 
+
         if(isPermitted(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
         }
 
-        if(isGuest(request.getHeader("isGuest"))) {
+        if(isGuest(request.getCookies())){
             chain.doFilter(request, response);
             return;
         }
@@ -38,8 +43,13 @@ public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
         return PermitUrls.isPermitted(requestURI);
     }
 
-    private boolean isGuest(final String isGuest) {
-        return YN.isY(isGuest);
+    private boolean isGuest(final Cookie[] cookies) {
+        return !isPresentCookieFromKey(cookies, "AccessToken")
+            && !isPresentCookieFromKey(cookies, "RefreshToken");
+    }
+
+    private boolean isPresentCookieFromKey(Cookie[] cookies, String key) {
+        return Objects.isNull(CookieParser.getValue(cookies, key));
     }
 
 }
