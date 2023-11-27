@@ -18,30 +18,31 @@ public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
     private final JwtService jwtService;
 
     private final String ACCESS_TOKEN_COOKIE_NAME = "AccessToken";
+
     private final String REFRESH_TOKEN_COOKIE_NAME = "RefreshToken";
 
-    public BasicAuthenticationCustomFilter(final AuthenticationManager authenticationManager, final JwtService jwtService) {
+    public BasicAuthenticationCustomFilter(final AuthenticationManager authenticationManager,
+        final JwtService jwtService) {
         super(authenticationManager);
         this.jwtService = jwtService;
     }
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response
+    protected void doFilterInternal(final HttpServletRequest request,
+        final HttpServletResponse response
         , final FilterChain chain) throws IOException, ServletException {
 
-
-        if(isPermitted(request.getRequestURI())) {
+        if (isPermitted(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
         }
 
-        if(isGuest(request.getCookies())){
+        JwtPayload jwtPayload = getJwtPayloadFromCookies(request.getCookies());
+
+        if (isGuest(jwtPayload)) {
             chain.doFilter(request, response);
             return;
         }
-
-
-
 
         super.doFilterInternal(request, response, chain);
     }
@@ -50,14 +51,19 @@ public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
         return PermitUrls.isPermitted(requestURI);
     }
 
-    private boolean isGuest(final Cookie[] cookies) {
-        return Objects.isNull(getJwtPayloadFromCookies(cookies));
+    private boolean isGuest(final JwtPayload jwtPayload) {
+        return Objects.isNull(jwtPayload);
     }
 
     private JwtPayload getJwtPayloadFromCookies(Cookie[] cookies) {
         String accessTokenValue = CookieParser.getValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
         String refreshTokenValue = CookieParser.getValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
 
-        return jwtService.generatePayload(accessTokenValue, refreshTokenValue);
+        if (Objects.nonNull(accessTokenValue) && Objects.nonNull(refreshTokenValue)) {
+            return jwtService.generatePayload(accessTokenValue, refreshTokenValue);
+        }
+
+        return null;
     }
+
 }
