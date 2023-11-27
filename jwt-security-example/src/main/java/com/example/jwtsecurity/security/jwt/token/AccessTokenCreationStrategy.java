@@ -15,5 +15,9 @@ public class AccessTokenCreationStrategy implements TokenCreationStrategy {
         String token = tokenIssuer.issue(tokenMetadata);
         return AccessToken.of(token);
     }
+    @Override
+    public Token execute(final String value) {
+        return AccessToken.of(value);
+    }
 
 }

@@ -16,5 +16,10 @@ public class RefreshTokenCreationStrategy implements TokenCreationStrategy {
     String token =  tokenIssuer.issue(tokenMetadata);
     return RefreshToken.of(token);
   }
+  @Override
+  public Token execute(final String value) {
+    return RefreshToken.of(value);
+  }
+
 
 }

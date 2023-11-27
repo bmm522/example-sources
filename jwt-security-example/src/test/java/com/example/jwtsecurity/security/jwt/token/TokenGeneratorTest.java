@@ -34,15 +34,13 @@ public class TokenGeneratorTest {
     @DisplayName("AccessToken 생성 전략 객체와 그에 맞는 메타데이터를 넣으면 prefix가 붙어서 AccessToken 토큰이 발급된다")
     void generatedAccessTokenTest() {
         TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix("Bearer ");
-        when(accessTokenCreationStrategy.execute(any())).thenReturn(FixtureToken.createAccessToken());
+        when(accessTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(FixtureToken.createAccessToken());
         Token actual = tokenGenerator.generate(accessTokenCreationStrategy, tokenMetadata);
 
         assertSoftly(softly -> {
             softly.assertThat(actual.getValue().startsWith("Bearer ")).isTrue();
             softly.assertThat(actual.getClass()).isEqualTo(AccessToken.class);
         });
-
-
     }
 
     @Test
@@ -50,7 +48,7 @@ public class TokenGeneratorTest {
     void generatedRefreshTokenTest() {
         TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix(
             "RefreshToken ");
-        when(refreshTokenCreationStrategy.execute(any())).thenReturn(
+        when(refreshTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(
             FixtureToken.createRefreshToken());
         Token actual = tokenGenerator.generate(refreshTokenCreationStrategy, tokenMetadata);
 
