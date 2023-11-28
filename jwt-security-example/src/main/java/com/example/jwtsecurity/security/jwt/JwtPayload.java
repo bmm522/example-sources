@@ -43,4 +43,8 @@ public class JwtPayload {
         return Objects.hash(accessToken, refreshToken);
     }
 
+    public boolean isEmpty() {
+        return Objects.isNull(accessToken) || Objects.isNull(refreshToken);
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.example.jwtsecurity.security.jwt.token;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.example.jwtsecurity.security.jwt.fixture.FixtureToken;
+import com.example.jwtsecurity.fixture.FixtureToken;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,6 +9,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
+/**
+ * @see TokenPrefixWrapper
+ */
 public class TokenPrefixWrapperTest {
 
     @ParameterizedTest(name = "prefix:{1}")

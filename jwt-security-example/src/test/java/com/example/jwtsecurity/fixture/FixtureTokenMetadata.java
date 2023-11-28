@@ -1,4 +1,4 @@
-package com.example.jwtsecurity.security.jwt.fixture;
+package com.example.jwtsecurity.fixture;
 import com.example.jwtsecurity.security.jwt.token.TokenMetadata;
 
 public class FixtureTokenMetadata {

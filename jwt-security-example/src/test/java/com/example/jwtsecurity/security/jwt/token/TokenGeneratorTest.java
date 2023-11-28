@@ -5,8 +5,8 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.example.jwtsecurity.security.jwt.fixture.FixtureToken;
-import com.example.jwtsecurity.security.jwt.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.fixture.FixtureToken;
+import com.example.jwtsecurity.fixture.FixtureTokenMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+/**
+ * @see TokenGenerator
+ */
 @ExtendWith(MockitoExtension.class)
 public class TokenGeneratorTest {
 
@@ -35,11 +38,11 @@ public class TokenGeneratorTest {
     void generatedAccessTokenTest() {
         TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix("Bearer ");
         when(accessTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(FixtureToken.createAccessToken());
-        Token actual = tokenGenerator.generate(accessTokenCreationStrategy, tokenMetadata);
+        Token result = tokenGenerator.generate(accessTokenCreationStrategy, tokenMetadata);
 
         assertSoftly(softly -> {
-            softly.assertThat(actual.getValue().startsWith("Bearer ")).isTrue();
-            softly.assertThat(actual.getClass()).isEqualTo(AccessToken.class);
+            softly.assertThat(result.isStartsWith("Bearer ")).isTrue();
+            softly.assertThat(result.getClass()).isEqualTo(AccessToken.class);
         });
     }
 
@@ -50,11 +53,11 @@ public class TokenGeneratorTest {
             "RefreshToken ");
         when(refreshTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(
             FixtureToken.createRefreshToken());
-        Token actual = tokenGenerator.generate(refreshTokenCreationStrategy, tokenMetadata);
+        Token result = tokenGenerator.generate(refreshTokenCreationStrategy, tokenMetadata);
 
         assertSoftly(softly -> {
-            softly.assertThat(actual.getValue().startsWith("RefreshToken ")).isTrue();
-            softly.assertThat(actual.getClass()).isEqualTo(RefreshToken.class);
+            softly.assertThat(result.isStartsWith("RefreshToken ")).isTrue();
+            softly.assertThat(result.getClass()).isEqualTo(RefreshToken.class);
         });
 
     }

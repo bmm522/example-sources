@@ -3,7 +3,7 @@ package com.example.jwtsecurity.security.jwt.token;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.example.jwtsecurity.security.jwt.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.fixture.FixtureTokenMetadata;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -11,6 +11,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
+/**
+ * @see TokenMetadata
+ */
 public class TokenMetadataTest  {
 
     @Test

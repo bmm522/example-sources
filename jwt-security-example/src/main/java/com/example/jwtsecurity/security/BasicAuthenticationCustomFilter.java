@@ -1,25 +1,18 @@
 package com.example.jwtsecurity.security;
-import com.example.jwtsecurity.security.cookie.CookieParser;
 import com.example.jwtsecurity.security.jwt.JwtPayload;
 import com.example.jwtsecurity.security.jwt.JwtService;
-import com.example.jwtsecurity.security.jwt.token.Token;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import java.util.Objects;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
 
     private final JwtService jwtService;
 
-    private final String ACCESS_TOKEN_COOKIE_NAME = "AccessToken";
-
-    private final String REFRESH_TOKEN_COOKIE_NAME = "RefreshToken";
 
     public BasicAuthenticationCustomFilter(final AuthenticationManager authenticationManager,
         final JwtService jwtService) {
@@ -32,38 +25,32 @@ public class BasicAuthenticationCustomFilter extends BasicAuthenticationFilter {
         final HttpServletResponse response
         , final FilterChain chain) throws IOException, ServletException {
 
-        if (isPermitted(request.getRequestURI())) {
+        if (isPermittedUrls(request)) {
             chain.doFilter(request, response);
             return;
         }
 
-        JwtPayload jwtPayload = getJwtPayloadFromCookies(request.getCookies());
+        JwtPayload jwtPayload = getJwtPayloadFromCookies(request);
 
         if (isGuest(jwtPayload)) {
             chain.doFilter(request, response);
             return;
         }
 
+
         super.doFilterInternal(request, response, chain);
     }
 
-    private boolean isPermitted(final String requestURI) {
-        return PermitUrls.isPermitted(requestURI);
+    private boolean isPermittedUrls(final HttpServletRequest request) {
+        return PermitUrls.isPermitted(request.getRequestURI());
     }
 
     private boolean isGuest(final JwtPayload jwtPayload) {
-        return Objects.isNull(jwtPayload);
+        return jwtPayload.isEmpty();
     }
 
-    private JwtPayload getJwtPayloadFromCookies(Cookie[] cookies) {
-        String accessTokenValue = CookieParser.getValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
-        String refreshTokenValue = CookieParser.getValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
-
-        if (Objects.nonNull(accessTokenValue) && Objects.nonNull(refreshTokenValue)) {
-            return jwtService.generatePayload(accessTokenValue, refreshTokenValue);
-        }
-
-        return null;
+    private JwtPayload getJwtPayloadFromCookies(HttpServletRequest request) {
+        return jwtService.generatePayload(request.getCookies());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.jwtsecurity.security.jwt.fixture;
+package com.example.jwtsecurity.fixture;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.jwtsecurity.security.jwt.token.AccessToken;

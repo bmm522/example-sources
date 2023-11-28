@@ -7,7 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import com.example.jwtsecurity.security.jwt.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.fixture.FixtureTokenMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+/**
+ * @see Auth0TokenIssuer
+ */
 public class Auth0TokenIssuerTest {
 
     private Auth0TokenIssuer auth0TokenIssuer;
@@ -30,12 +33,12 @@ public class Auth0TokenIssuerTest {
     void shouldReturnTokenWithGivenInformationWhenMetadataIsValid() {
         TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadata();
 
-        String result = auth0TokenIssuer.issue(tokenMetadata);
-        DecodedJWT actual = getDecodedJWTFrom(result);
+        String actual = auth0TokenIssuer.issue(tokenMetadata);
+        DecodedJWT result = getDecodedJWTFrom(actual);
 
         assertSoftly(softly -> {
-            softly.assertThat(actual.getSubject()).isEqualTo(FixtureTokenMetadata.SUBJECT);
-            softly.assertThat(actual.getClaim(FixtureTokenMetadata.CLAIM).toString())
+            softly.assertThat(result.getSubject()).isEqualTo(FixtureTokenMetadata.SUBJECT);
+            softly.assertThat(result.getClaim(FixtureTokenMetadata.CLAIM).toString())
                 .isEqualTo("\"" + FixtureTokenMetadata.USER_KEY + "\"");
         });
     }
@@ -49,20 +52,20 @@ public class Auth0TokenIssuerTest {
         @DisplayName("있을땐 claim이 존재하는 JWT 토큰으로 반환")
         void shouldReturnJwtTokenWithClaimWhenClaimExists() {
             TokenMetadata tokenMetadataWithClaim = FixtureTokenMetadata.createTokenMetadata();
-            String result = auth0TokenIssuer.issue(tokenMetadataWithClaim);
-            Claim actual = getDecodedJWTFrom(result).getClaim(FixtureTokenMetadata.CLAIM);
+            String actual = auth0TokenIssuer.issue(tokenMetadataWithClaim);
+            Claim result = getDecodedJWTFrom(actual).getClaim(FixtureTokenMetadata.CLAIM);
 
-            assertThat(actual).isNotNull();
+            assertThat(result).isNotNull();
         }
 
         @Test
         @DisplayName("없을땐 claim이 존재하지 않는 JWT 토큰으로 반환")
         void shouldReturnJwtTokenWithoutClaimWhenClaimDoesNotExist() {
             TokenMetadata tokenMetadataWithOutClaim = FixtureTokenMetadata.createTokenMetadataWithOutClaim();
-            String result = auth0TokenIssuer.issue(tokenMetadataWithOutClaim);
-            Claim actual = getDecodedJWTFrom(result).getClaim(FixtureTokenMetadata.CLAIM);
+            String actual = auth0TokenIssuer.issue(tokenMetadataWithOutClaim);
+            Claim result = getDecodedJWTFrom(actual).getClaim(FixtureTokenMetadata.CLAIM);
 
-            assertThat(actual.isNull()).isTrue();
+            assertThat(result.isNull()).isTrue();
         }
 
     }

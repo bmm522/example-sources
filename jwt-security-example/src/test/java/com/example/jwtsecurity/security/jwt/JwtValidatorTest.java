@@ -8,8 +8,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.example.jwtsecurity.security.jwt.fixture.FixtureToken;
-import com.example.jwtsecurity.security.jwt.fixture.FixtureTokenMetadata;
+import com.example.jwtsecurity.fixture.FixtureToken;
+import com.example.jwtsecurity.fixture.FixtureTokenMetadata;
 import com.example.jwtsecurity.security.jwt.token.Token;
 import com.example.jwtsecurity.security.jwt.token.TokenDecoder;
 import com.example.jwtsecurity.security.jwt.token.TokenPrefixWrapper;
@@ -26,6 +26,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.mockito.junit.jupiter.MockitoExtension;
+/**
+ * @see JwtValidator
+ */
 @ExtendWith(MockitoExtension.class)
 public class JwtValidatorTest {
 

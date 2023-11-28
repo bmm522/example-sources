@@ -1,12 +1,17 @@
-package com.example.jwtsecurity.security;
+package com.example.jwtsecurity.util;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import com.example.jwtsecurity.security.PermitUrls;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+/**
+ * @see PermitUrls
+ */
 public class PermitUrlsTest {
 
     @ParameterizedTest(name = "url: {0}")

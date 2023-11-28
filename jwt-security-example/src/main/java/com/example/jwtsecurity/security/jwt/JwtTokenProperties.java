@@ -44,12 +44,21 @@ public class JwtTokenProperties {
 		return refreshToken.prefix;
 	}
 
+	public String getAccessTokenCookieName() {
+		return accessToken.cookieName;
+	}
+
+	public String getRefreshTokenCookieName() {
+		return refreshToken.cookieName;
+	}
+
 	@Setter
 	static class AccessToken {
 		private String prefix;
 		private String subject;
 		private long expirationTime;
 		private String claim;
+		private String cookieName;
 	}
 
 	@Setter
@@ -57,6 +66,7 @@ public class JwtTokenProperties {
 		private String prefix;
 		private String subject;
 		private long expirationTime;
+		private String cookieName;
 
 	}
 

@@ -5,7 +5,9 @@ token:
     subject: "testSubject"
     claim: "testClaim"
     expirationTime: 100000L
+    cookieName: "AccessToken"
   refreshToken:
     prefix: "RefreshToken "
     subject: "testSubject"
     expirationTime: 100000000L
+    cookieName: "RefreshToken"

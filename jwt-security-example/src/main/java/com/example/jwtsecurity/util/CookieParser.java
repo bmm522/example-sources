@@ -1,4 +1,4 @@
-package com.example.jwtsecurity.security.cookie;
+package com.example.jwtsecurity.util;
 
 import jakarta.servlet.http.Cookie;
 import java.util.Arrays;
@@ -7,19 +7,16 @@ import java.util.Optional;
 
 public class CookieParser {
 
-
-
-    public static String getValue(final Cookie[] cookies, final String name) {
+    public static Optional<String> getValue(final Cookie[] cookies, final String name) {
 
         if (Objects.isNull(cookies)) {
-            return null;
+            return Optional.empty();
         }
 
         return Arrays.stream(cookies)
             .filter(cookie -> name.equals(cookie.getName()))
             .findFirst()
-            .map(Cookie::getValue)
-            .orElse(null);
+            .map(Cookie::getValue);
     }
 
 }
