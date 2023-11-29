@@ -17,8 +17,8 @@ public class TokenPrefixWrapperTest {
     @ParameterizedTest(name = "prefix:{1}")
     @MethodSource("provideParameters")
     @DisplayName("생성 시에 prefix가 붙은 Token을 내보낸다")
-    void plusPrefixWhenGenerate(Token token, String prefix) {
-        Token result = TokenPrefixWrapper.of(prefix, token);
+    void plusPrefixWhenGenerate(final Token token,final String prefix) {
+        final Token result = TokenPrefixWrapper.of(prefix, token);
 
         assertThat(result.isStartsWith(prefix)).isTrue();
     }

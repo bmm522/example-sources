@@ -27,7 +27,7 @@ public class TokenCreateStrategyTest {
     @Test
     @DisplayName("Access 토큰 생성 전략을 실행하면 AccessToken 토큰을 반환한다.")
     void returnAccessTokenWhenAccessTokenCreationStrategyActive() {
-        Token result = accessTokenCreationStrategy.execute(FixtureTokenMetadata.createAccessTokenMetadata());
+        final Token result = accessTokenCreationStrategy.execute(FixtureTokenMetadata.createAccessTokenMetadata());
 
         assertThat(result).isInstanceOf(AccessToken.class);
     }
@@ -35,7 +35,7 @@ public class TokenCreateStrategyTest {
     @Test
     @DisplayName("Refresh 토큰 생성 전략을 실행하면 RefreshToken 토큰을 반환한다.")
     void returnRefreshTokenWhenRefreshTokenCreationStrategyActive() {
-        Token result = refreshTokenCreationStrategy.execute(FixtureTokenMetadata.createRefreshTokenMetadata());
+        final Token result = refreshTokenCreationStrategy.execute(FixtureTokenMetadata.createRefreshTokenMetadata());
 
         assertThat(result).isInstanceOf(RefreshToken.class);
     }

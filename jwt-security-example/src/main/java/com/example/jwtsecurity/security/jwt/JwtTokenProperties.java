@@ -14,9 +14,6 @@ public class JwtTokenProperties {
 
 	private String secret;
 
-	private void setSecret (final String secret) {
-		this.secret = secret;
-	}
 	public String getSecretKey () {
 		return secret;
 	}
@@ -44,11 +41,11 @@ public class JwtTokenProperties {
 		return refreshToken.prefix;
 	}
 
-	public String getAccessTokenCookieName() {
+	public String getAccessTokenCookieName () {
 		return accessToken.cookieName;
 	}
 
-	public String getRefreshTokenCookieName() {
+	public String getRefreshTokenCookieName () {
 		return refreshToken.cookieName;
 	}
 

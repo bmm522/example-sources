@@ -1,50 +1,46 @@
 package com.example.jwtsecurity.security.jwt;
 
 import com.example.jwtsecurity.security.jwt.token.Token;
+
 import java.util.Objects;
 
 public class JwtPayload {
 
-    private Token accessToken;
+	private Token accessToken;
 
-    private Token refreshToken;
+	private Token refreshToken;
 
-    private JwtPayload(final Token accessToken, final Token refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-    }
+	private JwtPayload (final Token accessToken, final Token refreshToken) {
+		this.accessToken = accessToken;
+		this.refreshToken = refreshToken;
+	}
 
-    public static JwtPayload of(Token accessToken, Token refreshToken) {
-        return new JwtPayload(accessToken, refreshToken);
-    }
-    public Token getAccessToken() {
+	public static JwtPayload of (final Token accessToken, final Token refreshToken) {
+		return new JwtPayload(accessToken, refreshToken);
+	}
+	public Token getAccessToken () {
+		return accessToken;
+	}
 
-        return accessToken;
-    }
+	public Token getRefreshToken () {
+		return refreshToken;
+	}
 
-    public Token getRefreshToken() {
+	@Override
+	public boolean equals (final Object o) {
+		if (this == o) return true;
+		if (!(o instanceof JwtPayload that)) return false;
+		return Objects.equals(accessToken, that.accessToken)
+			&& Objects.equals(refreshToken, that.refreshToken);
+	}
 
-        return refreshToken;
-    }
+	@Override
+	public int hashCode () {
+		return Objects.hash(accessToken, refreshToken);
+	}
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof JwtPayload that)) {
-            return false;
-        }
-        return Objects.equals(accessToken, that.accessToken) && Objects.equals(
-            refreshToken, that.refreshToken);
-    }
-    @Override
-    public int hashCode() {
-        return Objects.hash(accessToken, refreshToken);
-    }
-
-    public boolean isEmpty() {
-        return Objects.isNull(accessToken) || Objects.isNull(refreshToken);
-    }
+	public boolean isEmpty () {
+		return Objects.isNull(accessToken) || Objects.isNull(refreshToken);
+	}
 
 }

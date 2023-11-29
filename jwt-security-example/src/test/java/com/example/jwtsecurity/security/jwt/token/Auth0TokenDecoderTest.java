@@ -32,8 +32,8 @@ public class Auth0TokenDecoderTest {
         @ParameterizedTest(name = "parameterInfo: {1}")
         @MethodSource("provideExpiredTokens")
         @DisplayName("만료되면 true를 반환한다.")
-        void shouldReturnTrueForExpiredTokens(Token token, String parameterInfo) {
-            boolean result = tokenDecoder.isTokenExpired(token, secret);
+        void shouldReturnTrueForExpiredTokens(final Token token,final String parameterInfo) {
+            final boolean result = tokenDecoder.isTokenExpired(token, secret);
 
             assertThat(result).isTrue();
         }
@@ -41,8 +41,8 @@ public class Auth0TokenDecoderTest {
         @ParameterizedTest(name = "parameterInfo: {1}")
         @MethodSource("provideNotExpiredTokens")
         @DisplayName("만료되지 않으면 false를 반환한다.")
-        void shouldReturnFalseForNonExpiredTokens(Token token, String parameterInfo) {
-            boolean result = tokenDecoder.isTokenExpired(token,secret);
+        void shouldReturnFalseForNonExpiredTokens(final Token token,final String parameterInfo) {
+            final boolean result = tokenDecoder.isTokenExpired(token,secret);
 
             assertThat(result).isFalse();
         }

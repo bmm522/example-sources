@@ -19,7 +19,7 @@ public class TokenMetadataTest  {
     @Test
     @DisplayName("클레임이 있는 TokenMetadata 생성 시 isExistClaim은 true를 반환한다")
     void shouldIssueValidTokenWithMetadata() {
-        TokenMetadata result = FixtureTokenMetadata.createTokenMetadata();
+        final TokenMetadata result = FixtureTokenMetadata.createTokenMetadata();
 
         assertThat(result.isExistClaim()).isTrue();
     }
@@ -27,7 +27,7 @@ public class TokenMetadataTest  {
     @Test
     @DisplayName("클레임이 없는 TokenMetadata 생성 시 isExistClaim은 false를 반환한다")
     void shouldReturnFalseForIsExistClaimWhenCreatedWithoutClaim() {
-        TokenMetadata result =FixtureTokenMetadata.createTokenMetadataWithOutClaim();
+        final TokenMetadata result =FixtureTokenMetadata.createTokenMetadataWithOutClaim();
 
         assertThat(result.isExistClaim()).isFalse();
     }
@@ -42,14 +42,14 @@ public class TokenMetadataTest  {
     @Test
     @DisplayName("현재시간에 만료시간을 더한 날짜를 DATE 타입으로 정확히 반환한다")
     void shouldReturnCorrectDateTypeForExpirationTime() {
-        TokenMetadata tokenMetadata =  FixtureTokenMetadata.createTokenMetadata();
-        LocalDateTime now = LocalDateTime.now();
+        final TokenMetadata tokenMetadata =  FixtureTokenMetadata.createTokenMetadata();
+        final LocalDateTime now = LocalDateTime.now();
 
-        Date expect = Date.from(
+        final Date expect = Date.from(
             now.plusNanos(tokenMetadata.expirationTime() * FixtureTokenMetadata.EXPIRATION_AT)
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
-        Date result = tokenMetadata.getExpiresAtOfDateType(now);
+        final Date result = tokenMetadata.getExpiresAtOfDateType(now);
 
         assertThat(result).isEqualTo(expect);
     }
