@@ -2,12 +2,12 @@ package com.example.jwtsecurity.security.jwt.token;
 
 public interface Token {
 
-	void wrapPrefix (final String prefix);
+  void wrapPrefix (final String prefix);
 
-	String getValue ();
+  String getValue ();
 
-	boolean isStartsWith (final String prefix);
+  boolean isStartsWith (final String prefix);
 
-	boolean isNotStartsWith (final String prefix);
+  boolean isNotStartsWith (final String prefix);
 
 }

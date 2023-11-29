@@ -29,52 +29,52 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	private static int BCryptPasswordStrength = 4;
+  private static int BCryptPasswordStrength = 4;
 
-	private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-	private final JwtService jwtService;
+  private final JwtService jwtService;
 
-	private static final String allowedOriginUrl = "http://localhost:8080";
+  private static final String allowedOriginUrl = "http://localhost:8080";
 
-	@Bean
-	public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
-		http.csrf(AbstractHttpConfigurer::disable)
-			.sessionManagement(
-				session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.authorizeHttpRequests(request -> request.anyRequest().permitAll())
-			.formLogin(AbstractHttpConfigurer::disable)
-			.httpBasic(AbstractHttpConfigurer::disable)
-			.cors(Customizer.withDefaults())
-			.apply(new SecurityFilters());
-		return http.build();
+  @Bean
+  public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+	http.csrf(AbstractHttpConfigurer::disable)
+		.sessionManagement(
+			session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.authorizeHttpRequests(request -> request.anyRequest().permitAll())
+		.formLogin(AbstractHttpConfigurer::disable)
+		.httpBasic(AbstractHttpConfigurer::disable)
+		.cors(Customizer.withDefaults())
+		.apply(new SecurityFilters());
+	return http.build();
+  }
+
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder () {
+	return new BCryptPasswordEncoder(BCryptPasswordStrength);
+  }
+
+  @Bean
+  CorsConfigurationSource corsConfigurationSource () {
+	CorsConfiguration configuration = new CorsConfiguration();
+	configuration.setAllowedOrigins(List.of(allowedOriginUrl));
+	configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
+	configuration.setAllowedHeaders(Collections.singletonList("*"));
+	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	source.registerCorsConfiguration("/**", configuration);
+	return source;
+  }
+
+  public class SecurityFilters extends AbstractHttpConfigurer<SecurityFilters, HttpSecurity> {
+
+	@Override
+	public void configure (HttpSecurity http) throws Exception {
+	  AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+	  http.addFilter(new BasicAuthenticationCustomFilter(authenticationManager, jwtService));
+	  //                .addFilter(new LoginAuthenticationFilter(authenticationManager, userDao, objectMapper));
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder () {
-		return new BCryptPasswordEncoder(BCryptPasswordStrength);
-	}
-
-	@Bean
-	CorsConfigurationSource corsConfigurationSource () {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of(allowedOriginUrl));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
-		configuration.setAllowedHeaders(Collections.singletonList("*"));
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
-
-	public class SecurityFilters extends AbstractHttpConfigurer<SecurityFilters, HttpSecurity> {
-
-		@Override
-		public void configure (HttpSecurity http) throws Exception {
-			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-			http.addFilter(new BasicAuthenticationCustomFilter(authenticationManager, jwtService));
-			//                .addFilter(new LoginAuthenticationFilter(authenticationManager, userDao, objectMapper));
-		}
-
-	}
+  }
 
 }

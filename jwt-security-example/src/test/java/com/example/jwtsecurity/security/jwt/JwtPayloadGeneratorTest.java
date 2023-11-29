@@ -32,64 +32,64 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class JwtPayloadGeneratorTest {
 
-	@Mock
-	private TokenGenerator tokenGenerator;
+  @Mock
+  private TokenGenerator tokenGenerator;
 
-	@Mock
-	private TokenCookieHandler tokenCookieHandler;
+  @Mock
+  private TokenCookieHandler tokenCookieHandler;
 
-	@Mock
-	private AccessTokenCreationStrategy accessTokenCreationStrategy;
+  @Mock
+  private AccessTokenCreationStrategy accessTokenCreationStrategy;
 
-	@Mock
-	private RefreshTokenCreationStrategy refreshTokenCreationStrategy;
+  @Mock
+  private RefreshTokenCreationStrategy refreshTokenCreationStrategy;
 
-	@InjectMocks
-	private JwtPayloadGenerator jwtPayloadGenerator;
+  @InjectMocks
+  private JwtPayloadGenerator jwtPayloadGenerator;
 
-	Token accessToken;
+  Token accessToken;
 
-	Token refreshToken;
+  Token refreshToken;
 
-	@BeforeEach
-	void setUp () {
-		accessToken = FixtureToken.createAccessToken();
-		refreshToken = FixtureToken.createRefreshToken();
-	}
+  @BeforeEach
+  void setUp () {
+	accessToken = FixtureToken.createAccessToken();
+	refreshToken = FixtureToken.createRefreshToken();
+  }
 
-	@Test
-	@DisplayName("TokenMetadata를 넣으면 JwtPayload를 반환한다 ")
-	void returnTokenMetadataWhenInputJwtPayload () {
-		final TokenMetadata accessTokenMetadata = FixtureTokenMetadata.createAccessTokenMetadata();
-		final TokenMetadata refreshTokenMetadata = FixtureTokenMetadata.createRefreshTokenMetadata();
+  @Test
+  @DisplayName("TokenMetadata를 넣으면 JwtPayload를 반환한다 ")
+  void returnTokenMetadataWhenInputJwtPayload () {
+	final TokenMetadata accessTokenMetadata = FixtureTokenMetadata.createAccessTokenMetadata();
+	final TokenMetadata refreshTokenMetadata = FixtureTokenMetadata.createRefreshTokenMetadata();
 
-		when(tokenGenerator.generate(accessTokenCreationStrategy, accessTokenMetadata)).thenReturn(accessToken);
-		when(tokenGenerator.generate(refreshTokenCreationStrategy, refreshTokenMetadata)).thenReturn(refreshToken);
+	when(tokenGenerator.generate(accessTokenCreationStrategy, accessTokenMetadata)).thenReturn(accessToken);
+	when(tokenGenerator.generate(refreshTokenCreationStrategy, refreshTokenMetadata)).thenReturn(refreshToken);
 
-		final JwtPayload result = jwtPayloadGenerator.generate(accessTokenMetadata, refreshTokenMetadata);
+	final JwtPayload result = jwtPayloadGenerator.generate(accessTokenMetadata, refreshTokenMetadata);
 
-		assertSoftly(softly -> {
-			softly.assertThat(result.getAccessToken()).isEqualTo(accessToken);
-			softly.assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
-		});
+	assertSoftly(softly -> {
+	  softly.assertThat(result.getAccessToken()).isEqualTo(accessToken);
+	  softly.assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
+	});
 
-	}
+  }
 
-	@Test
-	@DisplayName("Cookie 배열과 AccessTokenCookieName과 RefreshTokenCookieName을 넣으면 JwtPayload를 반환한다")
-	void returnJwtPayloadWhenCookieArrayAndCookieNames () {
-		final Cookie[] cookies = FixtureCookie.createCookies(accessToken.getValue(), refreshToken.getValue());
+  @Test
+  @DisplayName("Cookie 배열과 AccessTokenCookieName과 RefreshTokenCookieName을 넣으면 JwtPayload를 반환한다")
+  void returnJwtPayloadWhenCookieArrayAndCookieNames () {
+	final Cookie[] cookies = FixtureCookie.createCookies(accessToken.getValue(), refreshToken.getValue());
 
-		when(tokenCookieHandler.getAccessTokenFromCookies(any(), anyString())).thenReturn(accessToken);
-		when(tokenCookieHandler.getRefreshTokenFromCookies(any(), anyString())).thenReturn(refreshToken);
+	when(tokenCookieHandler.getAccessTokenFromCookies(any(), anyString())).thenReturn(accessToken);
+	when(tokenCookieHandler.getRefreshTokenFromCookies(any(), anyString())).thenReturn(refreshToken);
 
-		final JwtPayload result = jwtPayloadGenerator.generate(cookies, FixtureCookie.ACCESS_TOKEN_COOKIE_NAME,
-			FixtureCookie.REFRESH_TOKEN_COOKIE_NAME);
+	final JwtPayload result = jwtPayloadGenerator.generate(cookies, FixtureCookie.ACCESS_TOKEN_COOKIE_NAME,
+		FixtureCookie.REFRESH_TOKEN_COOKIE_NAME);
 
-		assertSoftly(softly -> {
-			softly.assertThat(result.getAccessToken()).isEqualTo(accessToken);
-			softly.assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
-		});
-	}
+	assertSoftly(softly -> {
+	  softly.assertThat(result.getAccessToken()).isEqualTo(accessToken);
+	  softly.assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
+	});
+  }
 
 }

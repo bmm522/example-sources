@@ -9,48 +9,48 @@ import lombok.Getter;
 
 public class AccessToken implements Token {
 
-	private AccessToken (final String token) {
-		this.token = token;
-	}
-	private String token;
+  private AccessToken (final String token) {
+	this.token = token;
+  }
+  private String token;
 
-	public static Token of (final String token) {
-		return new AccessToken(token);
-	}
+  public static Token of (final String token) {
+	return new AccessToken(token);
+  }
 
-	@Override
-	public void wrapPrefix (final String prefix) {
-		this.token = prefix + token;
-	}
-	@Override
-	public String getValue () {
-		return token.toString();
-	}
-	@Override
-	public boolean isStartsWith (final String prefix) {
-		return this.token.startsWith(prefix);
-	}
-	@Override
-	public boolean isNotStartsWith (final String prefix) {
-		return !this.token.startsWith(prefix);
-	}
+  @Override
+  public void wrapPrefix (final String prefix) {
+	this.token = prefix + token;
+  }
+  @Override
+  public String getValue () {
+	return token.toString();
+  }
+  @Override
+  public boolean isStartsWith (final String prefix) {
+	return this.token.startsWith(prefix);
+  }
+  @Override
+  public boolean isNotStartsWith (final String prefix) {
+	return !this.token.startsWith(prefix);
+  }
 
-	@Override
-	public boolean equals (final Object o) {
-		if (this == o) {
-			return true;
-		}
-
-		if (!(o instanceof AccessToken that)) {
-			return false;
-		}
-
-		return Objects.equals(token, that.token);
+  @Override
+  public boolean equals (final Object o) {
+	if (this == o) {
+	  return true;
 	}
 
-	@Override
-	public int hashCode () {
-		return Objects.hashCode(token);
+	if (!(o instanceof AccessToken that)) {
+	  return false;
 	}
+
+	return Objects.equals(token, that.token);
+  }
+
+  @Override
+  public int hashCode () {
+	return Objects.hashCode(token);
+  }
 
 }

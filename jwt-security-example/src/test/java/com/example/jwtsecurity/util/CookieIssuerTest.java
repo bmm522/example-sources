@@ -13,18 +13,18 @@ import org.junit.jupiter.api.Test;
  */
 public class CookieIssuerTest {
 
-	@Test
-	@DisplayName("해당 쿠키 이름과, 값과, 만료시간을 넣으면 그에 맞는 쿠키를 반환한다")
-	void executeTest () {
-		final String testName = "testName";
-		final String testValue = "testValue";
-		final int testExpiry = 20;
-		final Cookie result = CookieIssuer.execute(testName, testValue, testExpiry);
+  @Test
+  @DisplayName("해당 쿠키 이름과, 값과, 만료시간을 넣으면 그에 맞는 쿠키를 반환한다")
+  void executeTest () {
+	final String testName = "testName";
+	final String testValue = "testValue";
+	final int testExpiry = 20;
+	final Cookie result = CookieIssuer.execute(testName, testValue, testExpiry);
 
-		assertSoftly(softly -> {
-			softly.assertThat(result.getName()).isEqualTo(testName);
-			softly.assertThat(result.getValue()).isEqualTo(testValue);
-			softly.assertThat(result.getMaxAge()).isEqualTo(testExpiry);
-		});
-	}
+	assertSoftly(softly -> {
+	  softly.assertThat(result.getName()).isEqualTo(testName);
+	  softly.assertThat(result.getValue()).isEqualTo(testValue);
+	  softly.assertThat(result.getMaxAge()).isEqualTo(testExpiry);
+	});
+  }
 }

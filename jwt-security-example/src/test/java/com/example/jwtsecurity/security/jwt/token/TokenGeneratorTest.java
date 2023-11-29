@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.jwtsecurity.fixture.FixtureToken;
 import com.example.jwtsecurity.fixture.FixtureTokenMetadata;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,49 +21,48 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class TokenGeneratorTest {
 
-    @Mock
-    AccessTokenCreationStrategy accessTokenCreationStrategy;
+  @Mock
+  AccessTokenCreationStrategy accessTokenCreationStrategy;
 
-    @Mock
-    RefreshTokenCreationStrategy refreshTokenCreationStrategy;
+  @Mock
+  RefreshTokenCreationStrategy refreshTokenCreationStrategy;
 
-    TokenGenerator tokenGenerator;
+  TokenGenerator tokenGenerator;
 
-    @BeforeEach
-    void setUp() {
-        tokenGenerator = new TokenGeneratorImpl();
-    }
+  @BeforeEach
+  void setUp () {
+	tokenGenerator = new TokenGeneratorImpl();
+  }
 
-    @Test
-    @DisplayName("AccessToken 생성 전략 객체와 그에 맞는 메타데이터를 넣으면 prefix가 붙어서 AccessToken 토큰이 발급된다")
-    void generatedAccessTokenTest() {
-        final TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix("Bearer ");
+  @Test
+  @DisplayName("AccessToken 생성 전략 객체와 그에 맞는 메타데이터를 넣으면 prefix가 붙어서 AccessToken 토큰이 발급된다")
+  void generatedAccessTokenTest () {
+	final TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix("Bearer ");
 
-        when(accessTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(FixtureToken.createAccessToken());
+	when(accessTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(FixtureToken.createAccessToken());
 
-        final Token result = tokenGenerator.generate(accessTokenCreationStrategy, tokenMetadata);
+	final Token result = tokenGenerator.generate(accessTokenCreationStrategy, tokenMetadata);
 
-        assertSoftly(softly -> {
-            softly.assertThat(result.isStartsWith("Bearer ")).isTrue();
-            softly.assertThat(result.getClass()).isEqualTo(AccessToken.class);
-        });
-    }
+	assertSoftly(softly -> {
+	  softly.assertThat(result.isStartsWith("Bearer ")).isTrue();
+	  softly.assertThat(result.getClass()).isEqualTo(AccessToken.class);
+	});
+  }
 
-    @Test
-    @DisplayName("RefreshToken 생성 전략 객체와 그에 맞는 메타데이터를 넣으면 prefix가 붙어서 RefreshToken 토큰이 발급된다")
-    void generatedRefreshTokenTest() {
-        final TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix("RefreshToken ");
+  @Test
+  @DisplayName("RefreshToken 생성 전략 객체와 그에 맞는 메타데이터를 넣으면 prefix가 붙어서 RefreshToken 토큰이 발급된다")
+  void generatedRefreshTokenTest () {
+	final TokenMetadata tokenMetadata = FixtureTokenMetadata.createTokenMetadataWithPrefix("RefreshToken ");
 
-        when(refreshTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(FixtureToken.createRefreshToken());
+	when(refreshTokenCreationStrategy.execute(any(TokenMetadata.class))).thenReturn(FixtureToken.createRefreshToken());
 
-        final Token result = tokenGenerator.generate(refreshTokenCreationStrategy, tokenMetadata);
+	final Token result = tokenGenerator.generate(refreshTokenCreationStrategy, tokenMetadata);
 
-        assertSoftly(softly -> {
-            softly.assertThat(result.isStartsWith("RefreshToken ")).isTrue();
-            softly.assertThat(result.getClass()).isEqualTo(RefreshToken.class);
-        });
+	assertSoftly(softly -> {
+	  softly.assertThat(result.isStartsWith("RefreshToken ")).isTrue();
+	  softly.assertThat(result.getClass()).isEqualTo(RefreshToken.class);
+	});
 
-    }
-
+  }
 
 }
