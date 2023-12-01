@@ -6,6 +6,8 @@ public interface TokenDecoder {
 
   boolean isTokenExpired (final Token token, final String secretKey);
 
+  String getClaimValue(final Token token, final String claim, final String secretKey);
+
   DecodedJWT decodedJWT (final Token token, final String secretKey);
 
 }

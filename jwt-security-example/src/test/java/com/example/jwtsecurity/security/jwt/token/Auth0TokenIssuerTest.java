@@ -39,7 +39,7 @@ public class Auth0TokenIssuerTest {
 	assertSoftly(softly -> {
 	  softly.assertThat(result.getSubject()).isEqualTo(FixtureTokenMetadata.SUBJECT);
 	  softly.assertThat(result.getClaim(FixtureTokenMetadata.CLAIM).toString())
-		  .isEqualTo("\"" + FixtureTokenMetadata.USER_KEY + "\"");
+		  .isEqualTo("\"" + FixtureTokenMetadata.USER_ID + "\"");
 	});
   }
 

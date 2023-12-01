@@ -1,5 +1,6 @@
 package com.example.jwtsecurity.security.jwt.token;
 
+import com.example.jwtsecurity.common.exception.UnAuthorizedException;
 import com.example.jwtsecurity.util.CookieIssuer;
 
 import com.example.jwtsecurity.util.CookieParser;
@@ -22,7 +23,7 @@ public class TokenCookieHandler {
 	  return CookieIssuer.execute(RefreshToken.class.getSimpleName(), token.getValue(), 20);
 	}
 
-	throw new RuntimeException("일치하는 Token 타입이 없습니다.");
+	throw new UnAuthorizedException("일치하는 Token 타입이 없습니다.");
   }
 
   public Token getAccessTokenFromCookies (final Cookie[] cookies, final String accessTokenName) {

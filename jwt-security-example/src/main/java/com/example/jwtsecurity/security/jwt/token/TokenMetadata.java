@@ -11,23 +11,23 @@ import java.util.Date;
 import java.util.Objects;
 
 public record TokenMetadata(
-	String userKey,
+	String userId,
 	String secret,
 	String subject,
 	Long expirationTime,
 	String prefix,
 	String claim) {
 
-  public static TokenMetadata of (final String userKey, final String secret, final String subject, final Long expirationTime,
+  public static TokenMetadata of (final String userId, final String secret, final String subject, final Long expirationTime,
 	  final String prefix, final String claim) {
 	validateCheckExpiresAt(expirationTime);
-	return new TokenMetadata(userKey, secret, subject, expirationTime, prefix, claim);
+	return new TokenMetadata(userId, secret, subject, expirationTime, prefix, claim);
   }
 
   public static TokenMetadata createAccessTokenMetadata (
 	  AuthenticationAble authenticationAble,
 	  JwtTokenProperties jwtTokenProperties) {
-	return TokenMetadata.of(authenticationAble.getUserKey(),
+	return TokenMetadata.of(authenticationAble.getUserId(),
 		jwtTokenProperties.getSecretKey(),
 		jwtTokenProperties.getAccessTokenSubject(),
 		jwtTokenProperties.getAccessTokenExpirationTime(),
@@ -38,7 +38,7 @@ public record TokenMetadata(
   public static TokenMetadata createRefreshTokenMetadata (
 	  AuthenticationAble authenticationAble,
 	  JwtTokenProperties jwtTokenProperties) {
-	return TokenMetadata.of(authenticationAble.getUserKey(),
+	return TokenMetadata.of(authenticationAble.getUserId(),
 		jwtTokenProperties.getSecretKey(),
 		jwtTokenProperties.getRefreshTokenSubject(),
 		jwtTokenProperties.getRefreshTokenExpirationTime(),

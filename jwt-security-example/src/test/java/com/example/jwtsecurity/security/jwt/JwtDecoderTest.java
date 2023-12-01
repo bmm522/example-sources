@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.example.jwtsecurity.common.exception.UnAuthorizedException;
 import com.example.jwtsecurity.fixture.FixtureToken;
 import com.example.jwtsecurity.fixture.FixtureTokenMetadata;
 import com.example.jwtsecurity.security.jwt.token.Token;
@@ -28,13 +29,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * @see JwtValidator
+ * @see JwtDecoder
  */
 @ExtendWith(MockitoExtension.class)
-public class JwtValidatorTest {
+public class JwtDecoderTest {
 
   @InjectMocks
-  JwtValidator jwtValidator;
+  JwtDecoder jwtDecoder;
 
   @Mock
   TokenDecoder tokenDecoder;
@@ -57,7 +58,7 @@ public class JwtValidatorTest {
 
 	  when(tokenDecoder.isTokenExpired(any(), any())).thenReturn(true);
 
-	  final boolean result = jwtValidator.isTokenExpired(token, secret);
+	  final boolean result = jwtDecoder.isTokenExpired(token, secret);
 
 	  assertThat(result).isTrue();
 	}
@@ -69,7 +70,7 @@ public class JwtValidatorTest {
 
 	  when(tokenDecoder.isTokenExpired(any(Token.class), anyString())).thenReturn(false);
 
-	  final boolean result = jwtValidator.isTokenExpired(token, secret);
+	  final boolean result = jwtDecoder.isTokenExpired(token, secret);
 
 	  assertThat(result).isFalse();
 	}
@@ -95,7 +96,7 @@ public class JwtValidatorTest {
   void throwExceptionWhenNotValidInputPrefix (final Token token, final String parameterInfo) {
 	final String wrongPrefix = "wrongPrefix ";
 
-	assertThatThrownBy(() -> jwtValidator.validateCheckPrefix(token, wrongPrefix)).isInstanceOf(RuntimeException.class);
+	assertThatThrownBy(() -> jwtDecoder.validateCheckPrefix(token, wrongPrefix)).isInstanceOf(UnAuthorizedException.class);
   }
 
   private static Stream<Arguments> provideWrapTokens () {

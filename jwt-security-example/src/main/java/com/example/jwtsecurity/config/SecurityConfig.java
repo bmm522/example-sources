@@ -1,6 +1,6 @@
 package com.example.jwtsecurity.config;
 
-import com.example.jwtsecurity.security.BasicAuthenticationCustomFilter;
+import com.example.jwtsecurity.security.JwtAuthenticationFilter;
 import com.example.jwtsecurity.security.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -71,7 +71,7 @@ public class SecurityConfig {
 	@Override
 	public void configure (HttpSecurity http) throws Exception {
 	  AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-	  http.addFilter(new BasicAuthenticationCustomFilter(authenticationManager, jwtService));
+	  http.addFilter(new JwtAuthenticationFilter(authenticationManager, jwtService, objectMapper));
 	  //                .addFilter(new LoginAuthenticationFilter(authenticationManager, userDao, objectMapper));
 	}
 

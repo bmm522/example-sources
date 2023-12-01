@@ -21,8 +21,15 @@ public class Auth0TokenDecoder implements TokenDecoder {
 	  return true;
 	}
   }
+
+  public String getClaimValue(final Token token, final String claim, final String secretKey) {
+	return decodedJWT(token, secretKey).getClaim(claim).toString();
+  }
+
   public DecodedJWT decodedJWT (final Token token, final String secretKey) {
 	return JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token.getValue());
   }
+
+
 
 }

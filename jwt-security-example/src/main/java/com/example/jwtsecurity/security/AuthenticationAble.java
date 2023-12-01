@@ -1,6 +1,11 @@
 package com.example.jwtsecurity.security;
 
-public interface AuthenticationAble {
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-  String getUserKey ();
+public interface AuthenticationAble extends UserDetails, OAuth2User {
+
+  String getUserId ();
+
+
 }

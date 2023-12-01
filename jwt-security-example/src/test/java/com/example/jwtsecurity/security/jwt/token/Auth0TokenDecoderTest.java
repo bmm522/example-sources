@@ -33,6 +33,7 @@ public class Auth0TokenDecoderTest {
   @Nested
   @DisplayName("토큰이")
   class TokenExpirationValidationTests {
+
 	@ParameterizedTest(name = "parameterInfo: {1}")
 	@MethodSource("provideExpiredTokens")
 	@DisplayName("만료되면 true를 반환한다.")

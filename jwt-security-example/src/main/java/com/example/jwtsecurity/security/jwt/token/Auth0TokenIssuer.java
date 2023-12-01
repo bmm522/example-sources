@@ -33,7 +33,7 @@ public class Auth0TokenIssuer implements TokenIssuer {
 
   private void addClaimIfPresent (final Builder builder, final TokenMetadata tokenMetadata) {
 	if (isExistClaim(tokenMetadata)) {
-	  builder.withClaim(tokenMetadata.claim(), tokenMetadata.userKey());
+	  builder.withClaim(tokenMetadata.claim(), tokenMetadata.userId());
 	}
   }
 

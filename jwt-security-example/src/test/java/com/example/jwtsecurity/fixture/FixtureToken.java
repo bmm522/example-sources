@@ -14,7 +14,7 @@ public class FixtureToken {
 	return AccessToken.of(JWT.create()
 		.withSubject(FixtureTokenMetadata.SUBJECT)
 		.withExpiresAt(new Date(System.currentTimeMillis() + FixtureTokenMetadata.EXPIRATION_AT))
-		.withClaim(FixtureTokenMetadata.CLAIM, FixtureTokenMetadata.USER_KEY)
+		.withClaim(FixtureTokenMetadata.CLAIM, FixtureTokenMetadata.USER_ID)
 		.sign(Algorithm.HMAC256(FixtureTokenMetadata.SECRET)));
   }
 
@@ -29,7 +29,7 @@ public class FixtureToken {
 	return AccessToken.of(JWT.create()
 		.withSubject(FixtureTokenMetadata.SUBJECT)
 		.withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
-		.withClaim(FixtureTokenMetadata.CLAIM, FixtureTokenMetadata.USER_KEY)
+		.withClaim(FixtureTokenMetadata.CLAIM, FixtureTokenMetadata.USER_ID)
 		.sign(Algorithm.HMAC256(FixtureTokenMetadata.SECRET)));
   }
 

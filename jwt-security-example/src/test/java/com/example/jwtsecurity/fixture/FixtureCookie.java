@@ -11,6 +11,7 @@ public class FixtureCookie {
   public static final String ACCESS_TOKEN_COOKIE_VALUE = "accessTokenValue";
 
   public static final String REFRESH_TOKEN_COOKIE_VALUE = "refreshTokenValue";
+
   public static Cookie[] createCookies () {
 	return new Cookie[] {
 		new Cookie(ACCESS_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE_VALUE),

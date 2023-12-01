@@ -1,4 +1,5 @@
 spring:
+
   security:
     oauth2:
       client:
@@ -26,6 +27,10 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 jasypt:
   encryptor:

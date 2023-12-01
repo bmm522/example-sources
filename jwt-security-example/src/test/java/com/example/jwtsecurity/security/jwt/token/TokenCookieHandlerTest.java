@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import com.example.jwtsecurity.common.exception.UnAuthorizedException;
 import com.example.jwtsecurity.fixture.FixtureCookie;
 import com.example.jwtsecurity.fixture.FixtureToken;
 
@@ -79,7 +80,7 @@ public class TokenCookieHandlerTest {
 	  };
 
 	  assertThatThrownBy(() -> tokenCookieHandler.createCookie(given)).isInstanceOf(
-		  RuntimeException.class);
+		  UnAuthorizedException.class);
 	}
 
   }

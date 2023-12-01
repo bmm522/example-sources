@@ -1,6 +1,7 @@
 package com.example.jwtsecurity.security.jwt;
 
 import com.example.jwtsecurity.security.AuthenticationAble;
+import com.example.jwtsecurity.security.jwt.token.Token;
 import com.example.jwtsecurity.security.jwt.token.TokenMetadata;
 
 import jakarta.servlet.http.Cookie;
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtService {
 
-  private final JwtValidator jwtValidator;
+  private final JwtDecoder jwtDecoder;
 
   private final JwtTokenProperties jwtTokenProperties;
 
@@ -38,4 +39,12 @@ public class JwtService {
 	return TokenMetadata.createRefreshTokenMetadata(authenticationAble, jwtTokenProperties);
   }
 
+  public boolean isAccessTokenExpired (JwtPayload jwtPayload) {
+	jwtDecoder.validateCheckPrefix(jwtPayload.getAccessToken(), jwtTokenProperties.getAccessTokenPrefix());
+	return jwtDecoder.isTokenExpired(jwtPayload.getAccessToken(), jwtTokenProperties.getSecretKey());
+  }
+
+  public String getUserIdFromAccessToken (Token accessToken) {
+	return jwtDecoder.getUserIdFromToken(accessToken, jwtTokenProperties.getAccessTokenClaim(), jwtTokenProperties.getSecretKey());
+  }
 }

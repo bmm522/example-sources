@@ -25,10 +25,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "USERS")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseTimeEntity implements AuthenticationAble, UserDetails, OAuth2User {
+public class User extends BaseTimeEntity implements AuthenticationAble {
 
-  public static User of (final String userId, final String email, final Role role) {
-	return new User(userId, email, role);
+  private User(final String userId) {
+	this.userId = userId;
   }
 
   @Id
@@ -41,8 +41,16 @@ public class User extends BaseTimeEntity implements AuthenticationAble, UserDeta
   @Enumerated(EnumType.STRING)
   private Role role;
 
+  public static User of (final String userId, final String email, final Role role) {
+	return new User(userId, email, role);
+  }
+
+  public static User of (final String userId) {
+	return new User(userId);
+  }
+
   @Override
-  public String getUserKey () {
+  public String getUserId () {
 	return userId;
   }
 
@@ -60,49 +68,40 @@ public class User extends BaseTimeEntity implements AuthenticationAble, UserDeta
 	return Objects.hash(userId);
   }
 
-
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities () {
-	return null;
-  }
-
-  @Override
-  public String getPassword () {
-	return null;
-  }
-
-  @Override
-  public String getUsername () {
-	return userId;
-  }
-
-  @Override
-  public boolean isAccountNonExpired () {
-	return true;
-  }
-
-  @Override
-  public boolean isAccountNonLocked () {
-	return true;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired () {
-	return true;
-  }
-
-  @Override
-  public boolean isEnabled () {
-	return true;
-  }
-
   @Override
   public String getName () {
 	return null;
   }
-
   @Override
   public Map<String, Object> getAttributes () {
 	return null;
+  }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities () {
+	return null;
+  }
+  @Override
+  public String getPassword () {
+	return null;
+  }
+  @Override
+  public String getUsername () {
+	return userId;
+  }
+  @Override
+  public boolean isAccountNonExpired () {
+	return true;
+  }
+  @Override
+  public boolean isAccountNonLocked () {
+	return true;
+  }
+  @Override
+  public boolean isCredentialsNonExpired () {
+	return true;
+  }
+  @Override
+  public boolean isEnabled () {
+	return true;
   }
 }
