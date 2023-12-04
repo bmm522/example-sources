@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -49,15 +50,26 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 	  return;
 	}
 
-	if(isAccessTokenExpired(jwtPayload)) {
-	  handleExpired(response);
+	if(isValidPayload(jwtPayload)) {
+	  handleException(HttpStatus.UNAUTHORIZED.value(), response);
 	  return;
 	}
+
+	if(isAccessTokenExpired(jwtPayload)) {
+	  Integer isExpiredStatusCode = 419;
+	  handleException(isExpiredStatusCode, response);
+	  return;
+	}
+
+
+
 
 	setContext(jwtPayload);
 	chain.doFilter(request, response);
   }
-
+  private boolean isValidPayload (JwtPayload jwtPayload) {
+	
+  }
 
   private boolean isAccessTokenExpired (JwtPayload jwtPayload) {
 	return jwtService.isAccessTokenExpired(jwtPayload);
@@ -75,9 +87,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 	return jwtService.generatePayload(request.getCookies());
   }
 
-  private void handleExpired (HttpServletResponse response) throws IOException {
-	Integer isExpiredStatusCode = 419;
-	objectMapper.writeValue(response.getOutputStream(), ResponseUtils.fail(isExpiredStatusCode));
+  private void handleException (Integer statusCode , HttpServletResponse response) throws IOException {
+	objectMapper.writeValue(response.getOutputStream(), ResponseUtils.fail(statusCode));
   }
 
   private void setContext(JwtPayload jwtPayload) {
